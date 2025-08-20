@@ -47,7 +47,7 @@ export default function TabLayout() {
           title: 'Camera',
           tabBarIcon: ({ color }) => 
             <View style={{width: 80, height: 80, borderRadius: 60, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', marginTop: -20}}>
-              <IconSymbol size={28} name="house.fill" color={color} />,
+              <IconSymbol size={28} name="house.fill" color={color} />
             </View>
         }}
       />
