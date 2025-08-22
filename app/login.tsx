@@ -12,9 +12,11 @@ export default function Login() {
             </View>
             <View style={styles.loginContainer}>
                 <Image source={require('../assets/images/login_rabbit.png')} style={styles.rabbit} resizeMode='contain' />
+
+                {/*일단 누르면 메인페이지로 이동하도록 해둠*/}
                 <Pressable style={styles.loginBox} onPress={() => router.replace('/(tabs)/mapPage')}>
                     <Image source={require('../assets/images/kakaoIcon.webp')} style={styles.kakaoIcon} resizeMode='contain'/>
-                    <Text style={styles.loginText}>카카오 계정으로 계속하기</Text>
+                    <Text style={styles.loginText}>카카오 계정으로 계속하기</Text> 
                 </Pressable>
             </View>
         </View>
