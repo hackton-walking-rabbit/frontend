@@ -2,8 +2,9 @@
 1. Expo 패키지 설치
    ```bash
    npx expo install expo
-   ```
-2. 앱 실행
+```
+
+앱 실행
    - 에뮬레이터로 실행
       1. iOS/Android 기기에 `Expo Go` 앱 설치
       2. `npx expo start`로 개발 서버 실행
