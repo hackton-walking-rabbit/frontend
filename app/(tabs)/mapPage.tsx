@@ -1,7 +1,8 @@
+import { Header } from '@/components/ui/Header';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function MapPage() {
@@ -10,7 +11,7 @@ export default function MapPage() {
 
     useEffect(() => {
         (async () => {
-          // 위치 권한 요청
+            // 위치 권한 요청
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 console.log('위치 권한이 필요합니다!');
@@ -65,8 +66,25 @@ export default function MapPage() {
     `;
 
     return (
-        <View style={{ flex: 1 }}>
-            <WebView originWhitelist={['*']} source={{ html }} style={{ flex: 1 }} />
+        <View style={styles.container}>
+            {/* 상단 헤더 */}
+            <Header title="Walking Rabbit" />
+
+            {/* 지도 */}
+            <WebView 
+                originWhitelist={['*']}
+                source={{ html }}
+                style={styles.webview}
+            />
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    webview: {
+        flex: 1,
+    },
+});
