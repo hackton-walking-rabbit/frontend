@@ -2,7 +2,7 @@ import { Header } from '@/components/ui/Header';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function MapPage() {
@@ -76,6 +76,18 @@ export default function MapPage() {
                 source={{ html }}
                 style={styles.webview}
             />
+
+            {/* 미션 버튼 */}
+            <TouchableOpacity
+                style={styles.missionButton}
+                onPress={() => console.log('미션 버튼 클릭')}
+            >
+                <Image 
+                    source={require('../../assets/images/carrot.png')}
+                    style={{ width: 40, height: 40 }}
+                    resizeMode="contain"
+                />
+            </TouchableOpacity>
         </View>
     );
 }
@@ -86,5 +98,16 @@ const styles = StyleSheet.create({
     },
     webview: {
         flex: 1,
+    },
+    missionButton: {
+        position: 'absolute',
+        top: 150, 
+        left: 20,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: '#338D29',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
