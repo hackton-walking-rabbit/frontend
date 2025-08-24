@@ -3,10 +3,9 @@ import React from 'react';
 import { Platform, View } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Image } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -17,52 +16,107 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
         tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
+          default: {
+            height: 100,
+            paddingTop: 20,
+            opacity: 1,
           },
-          default: {},
         }),
-      }}>
+        tabBarBackground: () => <View style={{ flex: 1, backgroundColor: '#338D29' }} />,
+        tabBarShowLabel: false, // title 숨기기
+      }}
+    >
       <Tabs.Screen
-        name="encyclopedia"
+        name="bookPage"
         options={{
-          title: 'Book',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-
+          title: '도감',
+          tabBarIcon: ({ color }) => (
+            <Image
+            source={require('../../assets/images/book.png')}
+            style={{ width: 40, height: 35 }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
-        name="ranking"
+        name="rankingPage"
         options={{
-          title: 'Ranking',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: '랭킹',
+          tabBarIcon: ({ color }) => (
+            <Image
+              source={require('../../assets/images/trophy.png')}
+              style={{ width: 40, height: 40 }}
+              resizeMode="contain"
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="cameraPage"
         options={{
-          title: 'Camera',
-          tabBarIcon: ({ color }) => 
-            <View style={{width: 80, height: 80, borderRadius: 60, backgroundColor: '#ffffff', justifyContent: 'center', alignItems: 'center', marginTop: -20}}>
-              <IconSymbol size={28} name="house.fill" color={color} />
+          title: '카메라',
+          tabBarIcon: ({ color }) => (
+            <View
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: 60,
+                backgroundColor: '#338D29',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: -70
+              }}
+            >
+              <Image 
+                source={require('../../assets/images/camera.png')}
+                style={{ width: 48, height: 35 }}
+              />
             </View>
+          ),
         }}
       />
       <Tabs.Screen
         name="mapPage"
         options={{
-          title: 'Map',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: '지도',
+          tabBarIcon: ({ color }) => (
+            <Image  
+              source={require('../../assets/images/map-selected.png')}
+              style={{ width: 48, height: 40 }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="myPage"
         options={{
-          title: 'MyPage',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: '마이페이지',
+          tabBarIcon: ({ color }) => (
+            <View
+              style={{
+                width: 55,
+                height: 55,
+                borderRadius: 35,
+                borderWidth: 3,
+                borderColor: 'white',
+                overflow: 'hidden', // 이미지 자르기
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+
+              <Image
+                source={require('../../assets/images/rabbit-user-profile.png')}
+                style={{
+                  width: 80,
+                  height: 70,
+                  resizeMode: 'cover',
+                  top: 10,
+                }}
+              />
+            </View>
+          ),
         }}
       />
     </Tabs>
