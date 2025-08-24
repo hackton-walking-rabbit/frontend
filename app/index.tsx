@@ -55,7 +55,7 @@ export default function Loading() {
                     iterationCount={"infinite"}
                     duration={1200}
                     easing={"ease-in-out"}
-                    source={require('../assets/images/운영자토끼-전신-측면.png')} 
+                    source={require('../assets/images/rabbit-admin.png')} 
                     style={styles.rabbit}
                 />
                 <View style={styles.loadingBar}>
