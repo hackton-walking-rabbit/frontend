@@ -115,6 +115,18 @@ export default function MapPage() {
                     {/* 말풍선 */}
                     <View style={styles.bubble}>
                         <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo' }]}>오늘의 미션!</Text>
+
+                        {/* 이미지 + 미션 */}
+                        <View style={styles.bubbleContent}>
+                            <Image 
+                                source={require('../../assets/images/rabbit-admin-2.png')}
+                                style={styles.bubbleImage}
+                                resizeMode="contain"
+                            />
+                            <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 },]}>
+                                분홍색 꽃을 찾아보자 🌸
+                            </Text>
+                        </View>
                     </View>
                 </>
             )}
@@ -142,22 +154,35 @@ const styles = StyleSheet.create({
     },
     bubble: {
         position: 'absolute',
-        height: 130,
-        width: '60%',
+        height: 140,
+        width: '70%',
         top: 145,
         left: 90,
-        padding: 10,
         borderRadius: 8,
         borderWidth: 2,
         borderColor: '#338D29', 
         backgroundColor: 'white',
         zIndex: 1,
+        flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     bubbleText: {
         color: '#338D29',
         fontWeight: 'bold',
         fontSize: 25,
+    },
+    bubbleContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        marginTop: 10,
+        gap: 5,
+    },
+    bubbleImage: {
+        width: 50,  
+        height: 80,
     },
     bubbleTailContainer: {
         position: 'absolute',
