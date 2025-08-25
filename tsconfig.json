@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react-native",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "paths": {
@@ -15,4 +15,5 @@
     "**/*.ts",
     "**/*.tsx"
   ],
+  "extends": "expo/tsconfig.base"
 }
