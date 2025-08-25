@@ -1,7 +1,8 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 
+import { ThemedView } from '@/components/ThemedView';
 import { HapticTab } from '@/components/ui/NavigationTab';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -23,7 +24,7 @@ export default function TabLayout() {
             opacity: 1,
           },
         }),
-        tabBarBackground: () => <View style={{ flex: 1, backgroundColor: '#338D29' }} />,
+        tabBarBackground: () => <ThemedView style={{ flex: 1, backgroundColor: '#338D29' }} />,
         tabBarShowLabel: false, // title 숨기기
       }}
     >
@@ -57,7 +58,7 @@ export default function TabLayout() {
         options={{
           title: '카메라',
           tabBarIcon: ({ color }) => (
-            <View
+            <ThemedView
               style={{
                 width: 80,
                 height: 80,
@@ -72,7 +73,7 @@ export default function TabLayout() {
                 source={require('../../assets/images/camera.png')}
                 style={{ width: 48, height: 35 }}
               />
-            </View>
+            </ThemedView>
           ),
         }}
       />
@@ -93,7 +94,7 @@ export default function TabLayout() {
         options={{
           title: '마이페이지',
           tabBarIcon: ({ color }) => (
-            <View
+            <ThemedView
               style={{
                 width: 55,
                 height: 55,
@@ -115,7 +116,7 @@ export default function TabLayout() {
                   top: 10,
                 }}
               />
-            </View>
+            </ThemedView>
           ),
         }}
       />

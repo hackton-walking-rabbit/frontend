@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet } from 'react-native';
 
 export default function CameraPage() {
     return (
-        <View style={styles.titleContainer}>
-            <Text style={styles.title}>카메라 페이지</Text>
-        </View>
+        <ThemedView style={styles.titleContainer}>
+            <ThemedText style={styles.title}>카메라 페이지</ThemedText>
+        </ThemedView>
 
     )
 }

@@ -1,15 +1,16 @@
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 import { Header } from '@/components/ui/Header';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function MapPage() {
     const KAKAO_MAP_KEY = Constants.expoConfig?.extra?.kakaoMapKey;
     const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
     const [showBubble, setShowBubble] = useState(false);
-    const [fontsLoaded, setFontsLoaded] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -69,7 +70,7 @@ export default function MapPage() {
     `;
 
     return (
-        <View style={styles.container}>
+        <ThemedView style={styles.container}>
             {/* 상단 헤더 */}
             <Header title="Walking Rabbit" />
 
@@ -95,30 +96,30 @@ export default function MapPage() {
             {showBubble && (
                 <>
                     {/* 말풍선 꼬리 */}
-                    <View style={styles.bubbleTailContainer}>
-                        <View style={styles.bubbleTailBorder} />
-                        <View style={styles.bubbleTailInner} />
-                    </View>
+                    <ThemedView style={styles.bubbleTailContainer}>
+                        <ThemedView style={styles.bubbleTailBorder} />
+                        <ThemedView style={styles.bubbleTailInner} />
+                    </ThemedView>
 
                     {/* 말풍선 */}
-                    <View style={styles.bubble}>
-                        <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo' }]}>오늘의 미션!</Text>
+                    <ThemedView style={styles.bubble}>
+                        <ThemedText style={[styles.bubbleText, { fontFamily: 'DungGeunMo' }]}>오늘의 미션!</ThemedText>
 
                         {/* 이미지 + 미션 */}
-                        <View style={styles.bubbleContent}>
+                        <ThemedView style={styles.bubbleContent}>
                             <Image 
                                 source={require('../../assets/images/rabbit-admin-2.png')}
                                 style={styles.bubbleImage}
                                 resizeMode="contain"
                             />
-                            <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 },]}>
+                            <ThemedText style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 },]}>
                                 분홍색 꽃을 찾아보자 🌸
-                            </Text>
-                        </View>
-                    </View>
+                            </ThemedText>
+                        </ThemedView>
+                    </ThemedView>
                 </>
             )}
-        </View>
+        </ThemedView>
     );
 }
 

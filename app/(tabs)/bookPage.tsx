@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet } from 'react-native';
 
 export default function Encyclopedia() {
     return (
-        <View style={styles.titleContainer}>
-            <Text style={styles.title}>도감 페이지</Text>
-        </View>
+        <ThemedView style={styles.titleContainer}>
+            <ThemedText style={styles.title}>도감 페이지</ThemedText>
+        </ThemedView>
 
     )
 }

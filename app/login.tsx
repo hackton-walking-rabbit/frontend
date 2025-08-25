@@ -1,25 +1,27 @@
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 import { useRouter } from 'expo-router';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet } from 'react-native';
 
 export default function Login() {
     const router = useRouter();
 
     return (
-        <View style={styles.container}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.subTitle}>Walking Rabbit</Text>
-                <Text style={styles.title}>워킹토끼</Text>
-            </View>
-            <View style={styles.loginContainer}>
+        <ThemedView style={styles.container}>
+            <ThemedView style={styles.titleContainer}>
+                <ThemedText style={styles.subTitle}>Walking Rabbit</ThemedText>
+                <ThemedText style={styles.title}>워킹토끼</ThemedText>
+            </ThemedView>
+            <ThemedView style={styles.loginContainer}>
                 <Image source={require('../assets/images/rabbit-login.png')} style={styles.rabbit} resizeMode='contain' />
 
                 {/*일단 누르면 메인페이지로 이동하도록 해둠*/}
                 <Pressable style={styles.loginBox} onPress={() => router.replace('/(tabs)/mapPage')}>
                     <Image source={require('../assets/images/kakaoIcon.webp')} style={styles.kakaoIcon} resizeMode='contain'/>
-                    <Text style={styles.loginText}>카카오 계정으로 계속하기</Text> 
+                    <ThemedText style={styles.loginText}>카카오 계정으로 계속하기</ThemedText> 
                 </Pressable>
-            </View>
-        </View>
+            </ThemedView>
+        </ThemedView>
 
     )
 }
@@ -43,12 +45,14 @@ const styles = StyleSheet.create({
         color: '#338D29',
         fontSize: 60,
         fontFamily: 'BMJUA',
+        lineHeight: 60,
     },
     subTitle: {
         color: '#000000',
         fontSize: 20,
         fontFamily: 'Mynerve',
         textAlign: 'center',
+        lineHeight: 30,
     },
 
 
