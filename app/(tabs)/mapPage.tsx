@@ -107,7 +107,7 @@ export default function MapPage() {
                                 style={styles.bubbleImage}
                                 resizeMode="contain"
                             />
-                            <ThemedText style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 },]}>
+                            <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 },]}>
                                 분홍색 꽃을 찾아보자 🌸
                             </Text>
                         </ViewBox>

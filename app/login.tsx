@@ -17,7 +17,7 @@ export default function Login() {
                 {/*일단 누르면 메인페이지로 이동하도록 해둠*/}
                 <Pressable style={styles.loginBox} onPress={() => router.replace('/(tabs)/mapPage')}>
                     <Image source={require('../assets/images/kakaoIcon.webp')} style={styles.kakaoIcon} resizeMode='contain'/>
-                    <ThemedText style={styles.loginText}>카카오 계정으로 계속하기</ThemedText> 
+                    <Text style={styles.loginText}>카카오 계정으로 계속하기</Text> 
                 </Pressable>
             </ViewBox>
         </ViewBox>
