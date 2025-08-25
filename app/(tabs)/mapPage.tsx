@@ -1,6 +1,5 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { Header } from '@/components/ui/Header';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
@@ -71,9 +70,6 @@ export default function MapPage() {
 
     return (
         <ThemedView style={styles.container}>
-            {/* 상단 헤더 */}
-            <Header title="Walking Rabbit" />
-
             {/* 지도 */}
             <WebView 
                 originWhitelist={['*']}

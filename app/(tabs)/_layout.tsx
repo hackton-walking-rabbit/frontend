@@ -3,6 +3,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import { ThemedView } from '@/components/ThemedView';
+import { Header } from '@/components/ui/Header';
 import { HapticTab } from '@/components/ui/NavigationTab';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -15,7 +16,8 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
+        header: () => <Header title="Walking Rabbit" />,
+        headerShown: true,
         tabBarButton: HapticTab,
         tabBarStyle: Platform.select({
           default: {
