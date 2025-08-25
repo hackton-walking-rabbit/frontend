@@ -1,7 +1,9 @@
+
 import { ViewBox } from "@/components/View";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { Animated, Image, StyleSheet, Text } from "react-native";
+
 import * as Animatable from 'react-native-animatable';
 
 export default function Loading() {
@@ -30,6 +32,7 @@ export default function Loading() {
 
     return (
         <ViewBox style={styles.root}>
+
             {/* 배경 */}
                 <Image source={require('../assets/images/gradation_1.png')} style={styles.grad1}/>
                 <Image source={require('../assets/images/gradation_2.png')} style={styles.grad2}/>
@@ -40,12 +43,12 @@ export default function Loading() {
                 <Image source={require('../assets/images/foot_left.png')} style={styles.foot_left} resizeMode="contain"/>
                 <Image source={require('../assets/images/rabbit_shadow.png')} style={styles.rabbit_shadow} resizeMode="contain"/>
 
-
             <ViewBox style={styles.container}>
                 <ViewBox>
                     <Text style={styles.title}>워킹토끼</Text>
                     <Text style={styles.subTitle}>꽃의 도시 동대문구를 걷다</Text>
                 </ViewBox>
+
                 <Animatable.Image 
                     animation={{
                         0:   { translateY: 0 },
@@ -65,6 +68,7 @@ export default function Loading() {
                 </ViewBox>
             </ViewBox>
         </ViewBox>
+
 
         
     )
