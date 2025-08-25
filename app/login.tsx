@@ -1,9 +1,26 @@
 import { ViewBox } from '@/components/View';
 import { useRouter } from 'expo-router';
-import { Image, Pressable, StyleSheet, Text } from 'react-native';
+import { Image, Linking, Pressable, StyleSheet, Text } from 'react-native';
 
 export default function Login() {
     const router = useRouter();
+
+    const kakaoLogin = async () => {
+        try {
+            const response = await fetch("http://backend.com/api/auth/request", {method: "GET"});
+            const data = await response.json();
+
+            if (response.ok) {
+                const kakaoURL = data.data;
+                Linking.openURL(kakaoURL);
+            }
+            else {
+                console.error("URL 요청 실패",data);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
         <ViewBox style={styles.container}>
@@ -13,8 +30,8 @@ export default function Login() {
             </ViewBox>
             <ViewBox style={styles.loginContainer}>
                 <Image source={require('../assets/images/rabbit-login.png')} style={styles.rabbit} resizeMode='contain' />
-
                 {/*일단 누르면 메인페이지로 이동하도록 해둠*/}
+                {/* <Pressable style={styles.loginBox} onPress={kakaoLogin}> */}
                 <Pressable style={styles.loginBox} onPress={() => router.replace('/(tabs)/mapPage')}>
                     <Image source={require('../assets/images/kakaoIcon.webp')} style={styles.kakaoIcon} resizeMode='contain'/>
                     <Text style={styles.loginText}>카카오 계정으로 계속하기</Text> 
