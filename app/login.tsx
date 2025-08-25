@@ -30,6 +30,8 @@ export default function Login() {
             </ViewBox>
             <ViewBox style={styles.loginContainer}>
                 <Image source={require('../assets/images/rabbit-login.png')} style={styles.rabbit} resizeMode='contain' />
+
+
                 {/*일단 누르면 메인페이지로 이동하도록 해둠*/}
                 {/* <Pressable style={styles.loginBox} onPress={kakaoLogin}> */}
                 <Pressable style={styles.loginBox} onPress={() => router.replace('/(tabs)/mapPage')}>
