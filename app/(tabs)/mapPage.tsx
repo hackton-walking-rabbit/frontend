@@ -1,6 +1,5 @@
 import { Header } from '@/components/ui/Header';
 import Constants from 'expo-constants';
-import * as Font from 'expo-font';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -34,17 +33,6 @@ export default function MapPage() {
     const lat = coords?.latitude ?? 37.5744;
     const lng = coords?.longitude ?? 127.0395;
 
-    // 폰트 로드
-    useEffect(() => {
-        Font.loadAsync({
-            'DungGeunMo': require('../../assets/fonts/DungGeunMo.ttf'),
-        }).then(() => setFontsLoaded(true));
-    }, []);
-
-    // 폰트 로드되지 않았으면 빈 화면
-    if (!fontsLoaded) {
-        return <View style={{ flex: 1, backgroundColor: 'white' }} />;
-    }
 
     const html = `
         <!DOCTYPE html>

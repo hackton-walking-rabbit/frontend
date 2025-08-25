@@ -11,6 +11,7 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     BMJUA: require('../assets/fonts/BMJUA.ttf'),
     Mynerve: require('../assets/fonts/Mynerve-Regular.ttf'),
+    DungGeunMo: require('../assets/fonts/DungGeunMo.ttf'),
   });
 
   if (!loaded) return null;
