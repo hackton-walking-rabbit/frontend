@@ -1,9 +1,8 @@
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import { ViewBox } from '@/components/View';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 
 export default function MapPage() {
@@ -69,7 +68,7 @@ export default function MapPage() {
     `;
 
     return (
-        <ThemedView style={styles.container}>
+        <ViewBox style={styles.container}>
             {/* 지도 */}
             <WebView 
                 originWhitelist={['*']}
@@ -92,30 +91,30 @@ export default function MapPage() {
             {showBubble && (
                 <>
                     {/* 말풍선 꼬리 */}
-                    <ThemedView style={styles.bubbleTailContainer}>
-                        <ThemedView style={styles.bubbleTailBorder} />
-                        <ThemedView style={styles.bubbleTailInner} />
-                    </ThemedView>
+                    <ViewBox style={styles.bubbleTailContainer}>
+                        <ViewBox style={styles.bubbleTailBorder} />
+                        <ViewBox style={styles.bubbleTailInner} />
+                    </ViewBox>
 
                     {/* 말풍선 */}
-                    <ThemedView style={styles.bubble}>
-                        <ThemedText style={[styles.bubbleText, { fontFamily: 'DungGeunMo' }]}>오늘의 미션!</ThemedText>
+                    <ViewBox style={styles.bubble}>
+                        <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo' }]}>오늘의 미션!</Text>
 
                         {/* 이미지 + 미션 */}
-                        <ThemedView style={styles.bubbleContent}>
+                        <ViewBox style={styles.bubbleContent}>
                             <Image 
                                 source={require('../../assets/images/rabbit-admin-2.png')}
                                 style={styles.bubbleImage}
                                 resizeMode="contain"
                             />
-                            <ThemedText style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 },]}>
+                            <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 },]}>
                                 분홍색 꽃을 찾아보자 🌸
-                            </ThemedText>
-                        </ThemedView>
-                    </ThemedView>
+                            </Text>
+                        </ViewBox>
+                    </ViewBox>
                 </>
             )}
-        </ThemedView>
+        </ViewBox>
     );
 }
 
