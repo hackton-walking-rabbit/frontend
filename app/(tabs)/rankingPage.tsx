@@ -1,12 +1,11 @@
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { StyleSheet } from 'react-native';
+import { ViewBox } from '@/components/View';
+import { StyleSheet, Text } from 'react-native';
 
 export default function Ranking() {
     return (
-        <ThemedView style={styles.titleContainer}>
-            <ThemedText style={styles.title}>랭킹 페이지</ThemedText>
-        </ThemedView>
+        <ViewBox style={styles.titleContainer}>
+            <Text style={styles.title}>랭킹 페이지</Text>
+        </ViewBox>
 
     )
 }

@@ -1,8 +1,7 @@
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ViewBox } from "@/components/View";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
-import { Animated, Image, StyleSheet } from "react-native";
+import { Animated, Image, StyleSheet, Text } from "react-native";
 import * as Animatable from 'react-native-animatable';
 
 export default function Loading() {
@@ -30,23 +29,23 @@ export default function Loading() {
     })
 
     return (
-        <ThemedView style={styles.root}>
+        <ViewBox style={styles.root}>
             {/* 배경 */}
                 <Image source={require('../assets/images/gradation_1.png')} style={styles.grad1}/>
                 <Image source={require('../assets/images/gradation_2.png')} style={styles.grad2}/>
                 <Image source={require('../assets/images/gradation_3.png')} style={styles.grad3}/>
-                <ThemedText style={styles.title_en1}>Walking</ThemedText>
-                <ThemedText style={styles.title_en2}>Rabbit</ThemedText>
+                <Text style={styles.title_en1}>Walking</Text>
+                <Text style={styles.title_en2}>Rabbit</Text>
                 <Image source={require('../assets/images/foot_right.png')} style={styles.foot_right} resizeMode="contain"/>
                 <Image source={require('../assets/images/foot_left.png')} style={styles.foot_left} resizeMode="contain"/>
                 <Image source={require('../assets/images/rabbit_shadow.png')} style={styles.rabbit_shadow} resizeMode="contain"/>
 
 
-            <ThemedView style={styles.container}>
-                <ThemedView>
-                    <ThemedText style={styles.title}>워킹토끼</ThemedText>
-                    <ThemedText style={styles.subTitle}>꽃의 도시 동대문구를 걷다</ThemedText>
-                </ThemedView>
+            <ViewBox style={styles.container}>
+                <ViewBox>
+                    <Text style={styles.title}>워킹토끼</Text>
+                    <Text style={styles.subTitle}>꽃의 도시 동대문구를 걷다</Text>
+                </ViewBox>
                 <Animatable.Image 
                     animation={{
                         0:   { translateY: 0 },
@@ -59,13 +58,13 @@ export default function Loading() {
                     source={require('../assets/images/rabbit-admin.png')} 
                     style={styles.rabbit}
                 />
-                <ThemedView style={styles.loadingBar}>
+                <ViewBox style={styles.loadingBar}>
                     <Animated.View style={[styles.progress, {width: barWidth}]}>
                         <Animated.Image source={require('../assets/images/magnolia.png')} style={[styles.magnolia, {transform: [{translateX: flowerX}]}]}/>
                     </Animated.View>
-                </ThemedView>
-            </ThemedView>
-        </ThemedView>
+                </ViewBox>
+            </ViewBox>
+        </ViewBox>
 
         
     )

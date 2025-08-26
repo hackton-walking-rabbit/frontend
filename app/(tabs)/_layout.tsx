@@ -59,6 +59,7 @@ export default function TabLayout() {
         name="cameraPage"
         options={{
           title: '카메라',
+          tabBarStyle: { display: 'none' }, // 카메라 페이지에서 숨기기
           tabBarIcon: ({ color }) => (
             <ViewBox
               style={{
