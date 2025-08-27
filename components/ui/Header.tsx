@@ -26,11 +26,11 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
     const styles = StyleSheet.create({
     container: {
-        height: 110,
+        height: 80,
         backgroundColor: '#338D29', 
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 50, 
+        paddingTop: 30, 
     },
     title: {
         fontSize: 20,
