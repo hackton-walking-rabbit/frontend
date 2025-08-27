@@ -1,8 +1,11 @@
 import { Camera, CameraView } from 'expo-camera';
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import MagnifierIcon from '../../assets/images/magnifier.svg';
 
 // expo install expo-camera
+// expo install react-native-svg
+// yarn add react-native-svg-transformer
 
 export default function CameraPage() {
     const [permission, setPermission] = useState<boolean | null>(null);
@@ -23,10 +26,15 @@ export default function CameraPage() {
     if (permission === false) {
         return (
             <View style={styles.centered}>
-                <Button title="권한 다시 요청" onPress={async () => {
-                    const { status } = await Camera.requestCameraPermissionsAsync();
-                    setPermission(status === 'granted');
-                }} />
+                <TouchableOpacity
+                    style={styles.retryButton}
+                    onPress={async () => {
+                        const { status } = await Camera.requestCameraPermissionsAsync();   
+                        setPermission(status === 'granted');
+                    }}
+                >
+                    <MagnifierIcon width={24} height={24} fill="#338D29" />
+                </TouchableOpacity>
             </View>
         );
     }
@@ -43,17 +51,23 @@ export default function CameraPage() {
 
             {/* 사진 찍기 버튼 */}
             <View style={styles.buttonContainer}>
-                <Button
-                title="사진 찍기"
-                color="#338D29"
-                disabled={!isReady}
-                onPress={async () => {
-                    if (cameraRef.current) {
-                    const photo = await cameraRef.current.takePictureAsync();
-                    console.log("사진 저장 경로:", photo.uri);
-                    }
-                }}
-                />
+                <TouchableOpacity
+                    style={styles.captureButton}
+                    disabled={!isReady}
+                    onPress={async () => {
+                        if (cameraRef.current) {
+                            const photo = await cameraRef.current.takePictureAsync();
+                            console.log("사진 저장 경로:", photo.uri);
+                        }
+                    }}
+                >
+                    <MagnifierIcon
+                        width={50}
+                        height={50}
+                        fill="transparent"
+                        style={{ marginTop: 5 }}
+                    />
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -86,8 +100,24 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 40,
         alignSelf: 'center',
-        backgroundColor: 'white',
-        borderRadius: 10,
-        overflow: 'hidden',
+    },
+
+    captureButton: {
+        width: 70,
+        height: 70,
+        borderRadius: 35,
+        backgroundColor: '#338D29',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOpacity: 0.25,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+
+    retryButton: {
+        padding: 16,
+        backgroundColor: '#338D29',
+        borderRadius: 30,
     },
 });
