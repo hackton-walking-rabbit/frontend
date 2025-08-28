@@ -71,6 +71,14 @@ export default function ChatPage() {
                         </View>
                     </TouchableOpacity>
                 </View>
+
+                {/* 스피커 */}
+                <View style={styles.barsContainer}>
+                    <View style={[styles.bar, { width: '65%' }]} />
+                    <View style={[styles.bar, { width: '80%', marginTop: 10 }]} />
+                    <View style={[styles.bar, { width: '80%', marginTop: 10 }]} />
+                    <View style={[styles.bar, { width: '65%', marginTop: 10 }]} />
+                </View>
             </View>
         </>
     );
@@ -84,7 +92,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 60,
     },
-
     title: {
         fontFamily: 'Mynerve',
         fontSize: 20,
@@ -103,11 +110,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-
     shadowEdge: {
         position: 'absolute',
     },
-
     chatText: {
         color: 'white',
         fontWeight: 'bold',
@@ -119,7 +124,6 @@ const styles = StyleSheet.create({
         width: '90%', 
         marginTop: 20,
     },
-    
     bottomButton: {
         backgroundColor: '#FFC0CB', 
         paddingVertical: 10,
@@ -128,10 +132,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    
     iconWrapper: {
         height: 25,  
         justifyContent: 'center',
         alignItems: 'center',
+    },
+
+    barsContainer: {
+        width: '90%',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    bar: {
+        height: 11,
+        backgroundColor: '#000',
+        borderRadius: 10,
     },
 });
