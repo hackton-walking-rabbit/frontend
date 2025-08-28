@@ -2,6 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react-native",
+    "module": "es2015",
     "moduleResolution": "bundler",
     "esModuleInterop": true,
     "skipLibCheck": true,

@@ -1,4 +1,5 @@
 import { Camera, CameraView } from 'expo-camera';
+import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import MagnifierIcon from '../../assets/images/magnifier.svg';
@@ -11,6 +12,7 @@ export default function CameraPage() {
     const [permission, setPermission] = useState<boolean | null>(null);
     const cameraRef = useRef<CameraView | null>(null);
     const [isReady, setIsReady] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         (async () => {
@@ -55,10 +57,7 @@ export default function CameraPage() {
                     style={styles.captureButton}
                     disabled={!isReady}
                     onPress={async () => {
-                        if (cameraRef.current) {
-                            const photo = await cameraRef.current.takePictureAsync();
-                            console.log("사진 저장 경로:", photo.uri);
-                        }
+                        router.push('../chatPage');
                     }}
                 >
                     <MagnifierIcon
@@ -88,12 +87,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 12,
-    },
-
-    text: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#338D29',
     },
 
     buttonContainer: {
