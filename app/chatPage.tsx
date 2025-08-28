@@ -14,6 +14,7 @@ import SaveIcon from '../assets/images/save.svg';
 export default function ChatPage() {
     const [fontsLoaded] = useFonts({
         Mynerve: require('../assets/fonts/Mynerve-Regular.ttf'),
+        DungGeunMo: require('../assets/fonts/DungGeunMo.ttf'),
     });
 
     const router = useRouter();
@@ -86,7 +87,7 @@ export default function ChatPage() {
 
                         {/* 말풍선 */}
                         <View style={styles.adminSpeechBubble}>
-                            <Text style={styles.adminSpeechText}>동동동대문을 걸어라 파이팅 ❤️</Text>
+                            <Text style={[styles.adminSpeechText, { fontFamily: 'DungGeunMo' }]}>동동동대문을 걸어라 파이팅 ❤️</Text>
                             <View style={styles.adminSpeechTailBorder} />
                             <View style={styles.adminSpeechTail} />
                         </View>
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
     },
     userSpeechBubble: {
         height: 50,
-        maxWidth: "50%",
+        maxWidth: "60%",
         backgroundColor: '#FFC0CB',
         borderRadius: 5,
         padding: 10,
@@ -284,7 +285,7 @@ const styles = StyleSheet.create({
     },
     adminSpeechBubble: {
         minHeight: 50,
-        maxWidth: "50%",
+        maxWidth: "60%",
         backgroundColor: '#77BC6F',  
         borderRadius: 5,
         padding: 10,
@@ -299,7 +300,7 @@ const styles = StyleSheet.create({
     },
     adminSpeechText: {
         color: '#000',
-        fontSize: 18,
+        fontSize: 17,
     },
     adminSpeechTailBorder: {
         position: 'absolute',
