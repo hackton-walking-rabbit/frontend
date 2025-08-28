@@ -2,10 +2,13 @@ import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Stack } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ArrowIcon from '../assets/images/arrow.svg';
+import SaveIcon from '../assets/images/save.svg';
 
 // npx expo install expo-linear-gradient
 // npx expo install expo-font
+// expo install react-native-svg
 
 export default function ChatPage() {
     const [fontsLoaded] = useFonts({
@@ -55,6 +58,19 @@ export default function ChatPage() {
                     />
                     <Text style={styles.chatText}>/* 채팅창 */</Text>
                 </View>
+
+                <View style={styles.buttonRow}>
+                    <TouchableOpacity style={styles.bottomButton}>
+                        <View style={styles.iconWrapper}>
+                            <ArrowIcon width={30} height={30} fill="transparent" />
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.bottomButton}>
+                        <View style={styles.iconWrapper}>
+                            <SaveIcon width={40} height={40} fill="transparent" />
+                        </View>
+                    </TouchableOpacity>
+                </View>
             </View>
         </>
     );
@@ -95,5 +111,27 @@ const styles = StyleSheet.create({
     chatText: {
         color: 'white',
         fontWeight: 'bold',
+    },
+
+    buttonRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-around', // 버튼 사이 간격
+        width: '90%', 
+        marginTop: 20,
+    },
+    
+    bottomButton: {
+        backgroundColor: '#FFC0CB', 
+        paddingVertical: 10,
+        paddingHorizontal: '17%',
+        borderRadius: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    
+    iconWrapper: {
+        height: 25,  
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
