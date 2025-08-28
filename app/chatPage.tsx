@@ -1,6 +1,6 @@
 import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ArrowIcon from '../assets/images/arrow.svg';
@@ -15,6 +15,8 @@ export default function ChatPage() {
     const [fontsLoaded] = useFonts({
         Mynerve: require('../assets/fonts/Mynerve-Regular.ttf'),
     });
+
+    const router = useRouter();
 
     // 폰트 로드 전 빈 화면
     if (!fontsLoaded) {
@@ -92,7 +94,10 @@ export default function ChatPage() {
                 </View>
 
                 <View style={styles.buttonRow}>
-                    <TouchableOpacity style={styles.bottomButton}>
+                    <TouchableOpacity
+                        style={styles.bottomButton}
+                        onPress={() => router.push('/cameraPage')}
+                    >
                         <View style={styles.iconWrapper}>
                             <ArrowIcon width={30} height={30} fill="transparent" />
                         </View>
