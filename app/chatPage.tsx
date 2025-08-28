@@ -97,13 +97,16 @@ export default function ChatPage() {
                 <View style={styles.buttonRow}>
                     <TouchableOpacity
                         style={styles.bottomButton}
-                        onPress={() => router.push('/cameraPage')}
+                        onPress={() => router.back()}
                     >
                         <View style={styles.iconWrapper}>
                             <ArrowIcon width={30} height={30} fill="transparent" />
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.bottomButton}>
+                    <TouchableOpacity
+                        style={styles.bottomButton}
+                        onPress={() => router.push('/explorerPage')}
+                    >
                         <View style={styles.iconWrapper}>
                             <SaveIcon width={40} height={40} fill="transparent" />
                         </View>

@@ -114,9 +114,9 @@ export default function TabLayout() {
                 source={require('../../assets/images/rabbit-user-profile.png')}
                 style={{
                   width: 80,
-                  height: 70,
-                  resizeMode: 'cover',
-                  top: 10,
+                  height: 100,
+                  top: 15,
+                  left: 2,
                 }}
               />
             </ViewBox>
