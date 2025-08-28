@@ -58,7 +58,7 @@ export default function ChatPage() {
                         style={[styles.shadowEdge, { top: 0, bottom: 0, right: 0, width: 15 }]}
                     />
 
-                    {/* 사용자 프로필 + 말풍선 */}
+                    {/* user 프로필 + 말풍선 */}
                     <View style={styles.userSpeechWrapper}>
                         {/* 말풍선 */}
                         <View style={styles.userSpeechBubble}>
@@ -67,8 +67,21 @@ export default function ChatPage() {
                             <View style={styles.userSpeechTail} />
                         </View>
 
-                        {/* 프로필 네모 */}
+                        {/* user 프로필 */}
                         <View style={styles.userProfileBox} />
+                    </View>
+
+                    {/* admin 프로필 + 말풍선 */}
+                    <View style={styles.adminSpeechWrapper}>
+                        {/* 프로필 네모 */}
+                        <View style={styles.adminProfileBox} />
+
+                        {/* 말풍선 */}
+                        <View style={styles.adminSpeechBubble}>
+                            <Text style={styles.adminSpeechText}>동동동대문을 걸어라 파이팅 ❤️</Text>
+                            <View style={styles.adminSpeechTailBorder} />
+                            <View style={styles.adminSpeechTail} />
+                        </View>
                     </View>
                 </View>
 
@@ -112,6 +125,10 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 
+
+
+
+
     chatBox: {
         width: '90%',
         height: '70%',
@@ -119,9 +136,7 @@ const styles = StyleSheet.create({
         borderWidth: 7,
         borderColor: '#000000',
         borderRadius: 10,
-        overflow: 'hidden', 
-        justifyContent: 'center',
-        alignItems: 'center',
+        overflow: 'hidden',
     },
     shadowEdge: {
         position: 'absolute',
@@ -130,6 +145,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
+
+
+
+
 
     buttonRow: {
         flexDirection: 'row',
@@ -151,6 +170,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+
+
+
+
     barsContainer: {
         width: '90%',
         alignItems: 'center',
@@ -162,14 +185,17 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
 
+
+
+
+
     userSpeechWrapper: {
-        position: 'absolute',
-        top: 10,
-        right: 10,
         flexDirection: 'row',
-        alignItems: 'center',
+        justifyContent: 'flex-end',
+        alignItems: 'center', 
+        marginTop: 10,
+        marginRight: 10,
     },
-    
     userSpeechBubble: {
         height: 50,
         maxWidth: "50%",
@@ -179,16 +205,16 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginRight: 20,
         position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center',
 
         borderWidth: 3,
         borderColor: 'rgba(0,0,0,0.8)',
     },
-    
     userSpeechText: {
         color: '#000',
         fontSize: 18,
     },
-
     userSpeechTailBorder: {
         position: 'absolute',
         right: -15, 
@@ -201,9 +227,8 @@ const styles = StyleSheet.create({
         borderLeftColor: 'transparent',
         borderRightColor: 'transparent',
         borderTopColor: 'rgba(0,0,0,0.8)',
-        zIndex: -2
+        zIndex: -2,
     },
-    
     userSpeechTail: {
         position: 'absolute',
         right: -10,
@@ -216,9 +241,8 @@ const styles = StyleSheet.create({
         borderLeftColor: 'transparent',
         borderRightColor: 'transparent',
         borderTopColor: '#FFC0CB', 
-        zIndex: -1
+        zIndex: -1,
     },
-
     userProfileBox: {
         width: 55,
         height: 55,
@@ -229,5 +253,74 @@ const styles = StyleSheet.create({
 
         borderWidth: 3,
         borderColor: '#FFC0CB',
+    },
+
+
+
+
+
+    adminSpeechWrapper: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start', 
+        alignItems: 'center',
+        marginLeft: 10,
+    },
+    adminSpeechBubble: {
+        minHeight: 50,
+        maxWidth: "50%",
+        backgroundColor: '#77BC6F',  
+        borderRadius: 5,
+        padding: 10,
+        marginTop: 20,
+        marginLeft: 20,
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center',
+    
+        borderWidth: 3,
+        borderColor: 'rgba(0,0,0,0.8)',
+    },
+    adminSpeechText: {
+        color: '#000',
+        fontSize: 18,
+    },
+    adminSpeechTailBorder: {
+        position: 'absolute',
+        left: -15, 
+        top: 8,
+        width: 0,
+        height: 0,
+        borderLeftWidth: 12,
+        borderRightWidth: 12,
+        borderTopWidth: 12,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: 'rgba(0,0,0,0.8)',
+        zIndex: -2,
+    },
+    adminSpeechTail: {
+        position: 'absolute',
+        left: -10,
+        top: 10,
+        width: 0,
+        height: 0,
+        borderLeftWidth: 10,
+        borderRightWidth: 10,
+        borderTopWidth: 10,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: '#77BC6F',
+        zIndex: -1,
+    },
+    adminProfileBox: {
+        width: 55,
+        height: 55,
+        backgroundColor: '#FFFFFF', 
+        borderRadius: 5, 
+        marginTop: 20,
+        marginLeft: 20,
+    
+        borderWidth: 3,
+        borderColor: '#77BC6F',
     },
 });
