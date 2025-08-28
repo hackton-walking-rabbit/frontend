@@ -1,7 +1,7 @@
 import { Camera, CameraView } from 'expo-camera';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
 import MagnifierIcon from '../../assets/images/magnifier.svg';
 
 // expo install expo-camera
@@ -13,6 +13,7 @@ export default function CameraPage() {
     const cameraRef = useRef<CameraView | null>(null);
     const [isReady, setIsReady] = useState(false);
     const router = useRouter();
+    const { height, width } = Dimensions.get('window');
 
     useEffect(() => {
         (async () => {
@@ -43,7 +44,7 @@ export default function CameraPage() {
 
     return (
         <View style={styles.container}>
-        {/* 카메라 프리뷰 */}
+            {/* 카메라 프리뷰 */}
             <CameraView
                 style={styles.camera}
                 facing="back"
@@ -51,7 +52,13 @@ export default function CameraPage() {
                 onCameraReady={() => setIsReady(true)}
             />
 
-            {/* 사진 찍기 버튼 */}
+            {/* 십자 표시 */}
+            <View style={styles.crosshair}>
+                <View style={styles.horizontalLine} />
+                <View style={styles.verticalLine} />
+            </View>
+
+            {/* 돋보기 버튼 */}
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={styles.captureButton}
@@ -112,5 +119,29 @@ const styles = StyleSheet.create({
         padding: 16,
         backgroundColor: '#338D29',
         borderRadius: 30,
+    },
+
+    crosshair: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        width: 40,
+        height: 40,
+        marginLeft: -20,
+        marginTop: -60,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    horizontalLine: {
+        position: 'absolute',
+        width: 40,
+        height: 2,
+        backgroundColor: 'limegreen',
+    },
+    verticalLine: {
+        position: 'absolute',
+        height: 40,
+        width: 2,
+        backgroundColor: 'limegreen',
     },
 });
