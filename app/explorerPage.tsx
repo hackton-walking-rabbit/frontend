@@ -64,7 +64,7 @@ export default function ExplorerPage() {
                 <View style={styles.buttonRow}>
                     <TouchableOpacity
                         style={styles.bottomButton}
-                        onPress={() => router.back()}
+                        onPress={() => router.push('/(tabs)/mapPage')}
                     >
                         <View style={styles.iconWrapper}>
                             <MapIcon width={35} height={35} fill="transparent" />
