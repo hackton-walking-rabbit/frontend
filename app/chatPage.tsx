@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ArrowIcon from '../assets/images/arrow.svg';
+import PhotoIcon from '../assets/images/photo.svg';
 import SaveIcon from '../assets/images/save.svg';
 
 // npx expo install expo-linear-gradient
@@ -56,7 +57,19 @@ export default function ChatPage() {
                         end={{ x: 0, y: 0 }}
                         style={[styles.shadowEdge, { top: 0, bottom: 0, right: 0, width: 15 }]}
                     />
-                    <Text style={styles.chatText}>/* 채팅창 */</Text>
+
+                    {/* 사용자 프로필 + 말풍선 */}
+                    <View style={styles.userSpeechWrapper}>
+                        {/* 말풍선 */}
+                        <View style={styles.userSpeechBubble}>
+                            <PhotoIcon width={30} height={30} />
+                            <View style={styles.userSpeechTailBorder} />
+                            <View style={styles.userSpeechTail} />
+                        </View>
+
+                        {/* 프로필 네모 */}
+                        <View style={styles.userProfileBox} />
+                    </View>
                 </View>
 
                 <View style={styles.buttonRow}>
@@ -147,5 +160,74 @@ const styles = StyleSheet.create({
         height: 11,
         backgroundColor: '#000',
         borderRadius: 10,
+    },
+
+    userSpeechWrapper: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    
+    userSpeechBubble: {
+        height: 50,
+        maxWidth: "50%",
+        backgroundColor: '#FFC0CB',
+        borderRadius: 5,
+        padding: 10,
+        marginTop: 20,
+        marginRight: 20,
+        position: 'relative',
+
+        borderWidth: 3,
+        borderColor: 'rgba(0,0,0,0.8)',
+    },
+    
+    userSpeechText: {
+        color: '#000',
+        fontSize: 18,
+    },
+
+    userSpeechTailBorder: {
+        position: 'absolute',
+        right: -15, 
+        top: 8,
+        width: 0,
+        height: 0,
+        borderLeftWidth: 12,
+        borderRightWidth: 12,
+        borderTopWidth: 12,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: 'rgba(0,0,0,0.8)',
+        zIndex: -2
+    },
+    
+    userSpeechTail: {
+        position: 'absolute',
+        right: -10,
+        top: 10,
+        width: 0,
+        height: 0,
+        borderLeftWidth: 10,
+        borderRightWidth: 10,
+        borderTopWidth: 10,
+        borderLeftColor: 'transparent',
+        borderRightColor: 'transparent',
+        borderTopColor: '#FFC0CB', 
+        zIndex: -1
+    },
+
+    userProfileBox: {
+        width: 55,
+        height: 55,
+        backgroundColor: '#FFFFFF', 
+        borderRadius: 5, 
+        marginTop: 20,
+        marginRight: 20,
+
+        borderWidth: 3,
+        borderColor: '#FFC0CB',
     },
 });
