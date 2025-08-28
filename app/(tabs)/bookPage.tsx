@@ -1,3 +1,4 @@
+import { Card } from '@/components/ui/Card';
 import { ViewBox } from '@/components/View';
 import BottomSheet, { BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
 import { useCallback, useRef, useState } from 'react';
@@ -81,7 +82,11 @@ export default function Encyclopedia() {
   const formattedToday = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
   const [selected, setSelected] = useState<string | undefined>(formattedToday);
 
-
+  const selectedDate = (dateString?: string) => {
+    if (!dateString) return '';
+    const [year, month, day] = dateString.split('-');
+    return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
+  };
  
   return (
     <ViewBox style={styles.container}>
@@ -139,13 +144,25 @@ export default function Encyclopedia() {
         index={0} 
         snapPoints={snapPoints} 
         onChange={handleSheetChanges}
-        enableContentPanningGesture={false}
+        enableContentPanningGesture={true}
         enableDynamicSizing={false}
         backgroundStyle={styles.BSContainer}
       >
-        <BottomSheetView style={styles.contentContainer}>
-          <BottomSheetScrollView>
-            <Text>내용</Text>
+        <BottomSheetView>
+
+          <ViewBox style={styles.dateBox}>
+            <Text style={styles.date}>
+              {selectedDate(selected)}
+            </Text>
+          </ViewBox>
+
+          <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
+              <Card title="목련"></Card>
+              <Card title="능소화"></Card>
+              <Card title="능소화"></Card>
+              <Card title="능소화"></Card>
+              <Card title="능소화"></Card>
+
           </BottomSheetScrollView>
         </BottomSheetView>
       </BottomSheet>
@@ -216,7 +233,19 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.25,
       shadowRadius: 4,
     },
-    contentContainer: {
-      alignItems: "center",
+    dateBox:{
+      alignItems: 'flex-start',
+      marginBottom: 20,
+      left: 20,
+    },
+    date: {
+      fontSize: 15,
+      color: '#338D29',
+
+    },
+    scrollContainer: {
+      paddingBottom: 20,
+      alignItems: 'center',
+      gap: 15,
     },
 });
