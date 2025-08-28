@@ -1,15 +1,29 @@
+import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Stack } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 // npx expo install expo-linear-gradient
+// npx expo install expo-font
 
 export default function ChatPage() {
+    const [fontsLoaded] = useFonts({
+        Mynerve: require('../assets/fonts/Mynerve-Regular.ttf'),
+    });
+
+    // 폰트 로드 전 빈 화면
+    if (!fontsLoaded) {
+        return null; 
+    }
+
     return (
         <>
             <Stack.Screen options={{ headerShown: false }} />
             <View style={styles.container}>
+
+            <Text style={styles.title}>walking rabbit</Text>
+
                 <View style={styles.chatBox}>
                     {/* Top shadow */}
                     <LinearGradient
@@ -50,12 +64,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#242C23',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
+        paddingTop: 60,
+    },
+
+    title: {
+        fontFamily: 'Mynerve',
+        fontSize: 20,
+        color: 'white',
+        marginBottom: 10,
     },
 
     chatBox: {
-        position: 'absolute',
         width: '90%',
         height: '70%',
         backgroundColor: '#095600',
