@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Stack } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ArrowIcon from '../assets/images/arrow.svg';
 import PhotoIcon from '../assets/images/photo.svg';
 import SaveIcon from '../assets/images/save.svg';
@@ -68,7 +68,13 @@ export default function ChatPage() {
                         </View>
 
                         {/* user 프로필 */}
-                        <View style={styles.userProfileBox} />
+                        <View style={styles.userProfileBox}>
+                            <Image
+                                source={require('../assets/images/rabbit-user-profile.png')}
+                                style={styles.userProfileImage}
+                                resizeMode="cover"
+                            />
+                        </View>
                     </View>
 
                     {/* admin 프로필 + 말풍선 */}
@@ -250,9 +256,15 @@ const styles = StyleSheet.create({
         borderRadius: 5, 
         marginTop: 20,
         marginRight: 20,
+        overflow: 'hidden',
 
         borderWidth: 3,
         borderColor: '#FFC0CB',
+    },
+    userProfileImage: {
+        width: 80,
+        height: 80,
+        left: -12,
     },
 
 
