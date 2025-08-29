@@ -16,7 +16,7 @@ export default function Loading() {
             duration: 3000,
             useNativeDriver: false,
         }).start(() => {
-            // router.replace('/login');
+            router.replace('/login');
         });
     },[]);
 
