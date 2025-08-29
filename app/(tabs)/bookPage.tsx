@@ -197,12 +197,16 @@ export default function Encyclopedia() {
 
   const fetchCalendar = async (year: number, month: number) => {
     try {
-      const res = await apiFetch(`/api/calendar?year=${year}&month=${month}`, { method: "GET" });
+      const res = await apiFetch(`/api/calendar?year=${year}&month=${month}`, { method: 'GET' });
+      console.log('fetching URL:', `${process.env.API_BASE_URL}/api/calendar?year=${year}&month=${month}`);
       if (!res.ok) {
         console.error("캘린더 조회 실패", await res.text());
         return;
       }
       const json: CalendarResponse = await res.json();
+      json.data.forEach((day) => {
+    console.log(day.day, day.recordSum, day.chatRecords);
+  });
       setPhotoCounts(makePhotoCounts(json.data, year, month));
       setMissionStatus(makeMissionStatus(json.data, year, month));
       setPhotosByDate(makePhotosByDate(json.data, year, month));

@@ -126,6 +126,7 @@ export default function SurveyPage() {
                     content,
                 }),
             });
+            console.log('fetching URL:', `${process.env.API_BASE_URL}/api/surveys`);
 
             const data = await res.json();
             if (res.ok) {
