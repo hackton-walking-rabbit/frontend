@@ -1,6 +1,6 @@
 import { Card } from '@/components/ui/Card';
 import { ViewBox } from '@/components/View';
-import BottomSheet, { BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { useCallback, useRef, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars';
@@ -148,23 +148,19 @@ export default function Encyclopedia() {
         enableDynamicSizing={false}
         backgroundStyle={styles.BSContainer}
       >
-        <BottomSheetView>
+        <ViewBox style={styles.dateBox}>
+          <Text style={styles.date}>
+            {selectedDate(selected)}
+          </Text>
+        </ViewBox>
 
-          <ViewBox style={styles.dateBox}>
-            <Text style={styles.date}>
-              {selectedDate(selected)}
-            </Text>
-          </ViewBox>
-
-          <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
-              <Card title="목련"></Card>
-              <Card title="능소화"></Card>
-              <Card title="능소화"></Card>
-              <Card title="능소화"></Card>
-              <Card title="능소화"></Card>
-
-          </BottomSheetScrollView>
-        </BottomSheetView>
+        <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
+          <Card title="목련"></Card>
+          <Card title="능소화"></Card>
+          <Card title="능소화"></Card>
+          <Card title="능소화"></Card>
+          <Card title="능소화"></Card>
+        </BottomSheetScrollView>
       </BottomSheet>
     </ViewBox>
   );
