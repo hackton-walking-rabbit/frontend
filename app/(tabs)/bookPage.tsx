@@ -86,6 +86,32 @@ export default function Encyclopedia() {
     const [year, month, day] = dateString.split('-');
     return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
   };
+  
+  const Card = ({ title, count }: {title: string, count: number }) => {
+    return (
+      <ViewBox style={styles.cardWrapper}>
+        {count>1 &&<ViewBox style={styles.behindBox}/> }
+
+        <ViewBox style={styles.card}>
+          <ViewBox style={{backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', margin:10, gap: 10}}>
+            <Image source={require('../../assets/images/magnolia.png')} style={styles.image} resizeMode='contain'/>
+            <Text style={styles.title}>{title}</Text>
+          </ViewBox>
+
+          <ViewBox style={{ backgroundColor: 'transparent', position: 'absolute', top: 10, right: 10}}>
+            <Image source={require('../../assets/images/share.png')} style={styles.share} resizeMode='contain'/>
+          </ViewBox>
+
+          <ViewBox style={styles.positionContiner}>
+            <Text style={{color: '#ffffff', fontSize: 12}}>발견된 위치 보기</Text>
+            <Image source={require('../../assets/images/position.png')} style={styles.position} resizeMode='contain'/>
+          </ViewBox>
+        </ViewBox>
+      </ViewBox>
+    
+    )
+    
+  }
  
   return (
     <ViewBox style={styles.container}>
@@ -154,21 +180,8 @@ export default function Encyclopedia() {
         </ViewBox>
 
         <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
-          <ViewBox style={styles.card}>
-            <ViewBox style={{backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', margin:10, gap: 10}}>
-              <Image source={require('../../assets/images/magnolia.png')} style={styles.image} resizeMode='contain'/>
-              <Text style={styles.title}>목련</Text>
-            </ViewBox>
-
-            <ViewBox style={{ backgroundColor: 'transparent', position: 'absolute', top: 10, right: 10}}>
-              <Image source={require('../../assets/images/share.png')} style={styles.share} resizeMode='contain'/>
-            </ViewBox>
-
-            <ViewBox style={styles.positionContiner}>
-              <Text style={{color: '#ffffff', fontSize: 12}}>발견된 위치 보기</Text>
-              <Image source={require('../../assets/images/position.png')} style={styles.position} resizeMode='contain'/>
-            </ViewBox>
-          </ViewBox>
+          <Card title='목련' count={2}></Card>
+          <Card title='능소화' count={1}></Card>
         </BottomSheetScrollView>
       </BottomSheet>
     </ViewBox>
@@ -252,6 +265,22 @@ const styles = StyleSheet.create({
       paddingBottom: 20,
       alignItems: 'center',
       gap: 15,
+    },
+
+
+    cardWrapper: {
+      width: 300,
+      height: 100,
+      marginTop: 10,
+    },
+    behindBox: {
+      position: 'absolute',
+      top: -7,
+      left: -7,
+      width: '100%',
+      height: '100%',
+      borderRadius: 20,
+      backgroundColor: '#338D29'
     },
     card: {
         backgroundColor: '#77BC6F',
