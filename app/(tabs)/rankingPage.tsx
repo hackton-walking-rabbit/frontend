@@ -34,12 +34,37 @@ export default function Ranking() {
                 // 전체 랭킹 조회
                 const totalRes = await apiFetch('/api/ranks/total');
                 const totalData = await totalRes.json();
-                if (totalRes.ok) setTotalRanks(totalData.data);
-        
-                // 내 랭킹 조회
-                const meRes = await apiFetch('/api/ranks/me');
-                const meData = await meRes.json();
-                if (meRes.ok) setMyRank(meData.data);
+
+                if (totalRes.ok) {
+                    const sorted: RankItem[] = totalData.data.sort(
+                        (a: RankItem, b: RankItem) => b.chatRecordNumber - a.chatRecordNumber
+                    );
+
+                    let rank = 1;
+                    let lastCount = -1;
+                    let sameRank = 0;
+
+                    const rankedData: RankItem[] = sorted.map((item: RankItem, idx: number) => {
+                        if (item.chatRecordNumber === lastCount) {
+                            sameRank += 1;
+                        } else {
+                            rank += sameRank;
+                            sameRank = 1;
+                        }
+                        lastCount = item.chatRecordNumber;
+                        return { ...item, rank };
+                    });
+
+                    setTotalRanks(rankedData);
+
+                    // 내 랭크 업데이트
+                    const meRes = await apiFetch('/api/ranks/me');
+                    const meData = await meRes.json();
+                    if (meRes.ok) {
+                        const my: RankItem | null = rankedData.find((r: RankItem) => r.userId === meData.data.userId) ?? null;
+                        setMyRank(my);
+                    }
+                }
         
             } catch (err) {
                 console.error(err);
@@ -86,19 +111,44 @@ export default function Ranking() {
 
                 {/* 시상대 */}
                 <View style={styles.podiumCirclesRow}>
-                    {totalRanks.slice(0, 3).map((user, index) => (
-                    <View key={user.userId} style={[styles.rankWrapper, { marginBottom: [-10, -60, -110][index] }]}>
+                    {/* 2등 */}
+                    <View style={[styles.rankWrapper, { marginBottom: -60 }]}>
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                             <Image 
-                            source={require('../../assets/images/rabbit-user-profile.png')} 
-                            style={{ width: 130, height: 130, marginTop: 30 }}
-                        resizeMode="contain" 
-                        />
+                                source={require('../../assets/images/rabbit-user-profile.png')} 
+                                style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
+                                resizeMode="cover" 
+                            />
                         </View>
-                        <Text style={styles.podiumName}>{user.nickname}</Text>
-                        <Text style={styles.podiumCount}>{user.chatRecordNumber}개</Text>
+                        <Text style={styles.podiumName}>{totalRanks[1]?.nickname ?? ''}</Text>
+                        <Text style={styles.podiumCount}>{totalRanks[1]?.chatRecordNumber ?? 0}개</Text>
                     </View>
-                    ))}
+
+                    {/* 1등 */}
+                    <View style={[styles.rankWrapper, { marginBottom: -10 }]}>
+                        <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
+                            <Image 
+                                source={require('../../assets/images/rabbit-user-profile.png')} 
+                                style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
+                                resizeMode="cover" 
+                            />
+                        </View>
+                        <Text style={styles.podiumName}>{totalRanks[0]?.nickname ?? ''}</Text>
+                        <Text style={styles.podiumCount}>{totalRanks[0]?.chatRecordNumber ?? 0}개</Text>
+                    </View>
+
+                    {/* 3등 */}
+                    <View style={[styles.rankWrapper, { marginBottom: -110 }]}>
+                        <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
+                            <Image 
+                                source={require('../../assets/images/rabbit-user-profile.png')} 
+                                style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
+                                resizeMode="cover" 
+                            />
+                        </View>
+                        <Text style={styles.podiumName}>{totalRanks[2]?.nickname ?? ''}</Text>
+                        <Text style={styles.podiumCount}>{totalRanks[2]?.chatRecordNumber ?? 0}개</Text>
+                    </View>
                 </View>
 
                 <Podium width={350} height={500} />
@@ -114,7 +164,7 @@ export default function Ranking() {
                     backgroundStyle={styles.BSContainer}
                 >
                     <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
-                        {totalRanks.slice(3).map(user => (
+                        {totalRanks.map(user => (
                             <Card key={user.userId} name={user.nickname} rank={user.rank} count={user.chatRecordNumber} />
                         ))}
                     </BottomSheetScrollView>
@@ -125,7 +175,9 @@ export default function Ranking() {
                     <View style={styles.myCard}>
                         {/* 순위 */}
                         <View style={styles.rankCircle}>
-                            <Text style={[styles.rankText, { color: '#FFC0CB' }]}>{7}</Text>
+                            <Text style={[styles.rankText, { color: '#FFC0CB' }]}>
+                                {myRank?.rank ?? '-'}
+                            </Text>
                         </View>
 
                         {/* 프로필 사진 */}

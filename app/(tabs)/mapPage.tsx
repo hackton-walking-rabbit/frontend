@@ -96,7 +96,7 @@ export default function MapPage() {
 
 const createTodayMission = async () => {
     try {
-        const response = await apiFetch('api/missions/create', {
+        const response = await apiFetch('/api/missions/create', {
         method: 'POST',
         });
 
@@ -163,7 +163,11 @@ const createTodayMission = async () => {
                                 </Text>
                                 {/* 카메라 버튼 */}
                                 <TouchableOpacity
-                                    style={styles.cameraButton} onPress={() => router.replace('/cameraPage')}
+                                    style={styles.cameraButton}
+                                    onPress={() => router.push({
+                                        pathname: '/cameraPage',
+                                        params: { missionId: mission?.missionId }
+                                    })}
                                 >
                                     <CameraIcon width={24} height={24} />
                                 </TouchableOpacity>

@@ -1,7 +1,7 @@
 import { apiFetch } from '@/api/apiClient';
 import { Camera, CameraView } from 'expo-camera';
 import * as Location from 'expo-location';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import MagnifierIcon from '../../assets/images/magnifier.svg';
@@ -10,6 +10,7 @@ import MagnifierIcon from '../../assets/images/magnifier.svg';
 // yarn add react-native-svg-transformer
 
 export default function CameraPage() {
+    const { missionId } = useLocalSearchParams<{ missionId: string }>();
     const [permission, setPermission] = useState<{ granted: boolean } | null>(null);
     const cameraRef = useRef<CameraView | null>(null);
     const [isReady, setIsReady] = useState(false);
@@ -62,12 +63,12 @@ export default function CameraPage() {
                 type: 'image/jpeg',
             } as any);
             formData.append('meta', JSON.stringify({
-                missionId: null,
-                latitude: coords?.latitude,
-                longitude: coords?.longitude,
+                missionId: missionId ? Number(missionId) : null,
+                latitude: coords?.latitude ?? 0,
+                longitude: coords?.longitude ?? 0,
             }));
         
-            const response = await apiFetch('/messages/photo', {
+            const response = await apiFetch('/api/messages/photo', {
                 method: 'POST',
                 body: formData,
             });
