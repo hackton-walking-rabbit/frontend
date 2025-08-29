@@ -1,3 +1,4 @@
+import { apiFetch } from '@/api/apiClient';
 import { ViewBox } from '@/components/View';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import * as Font from 'expo-font';
@@ -5,16 +6,47 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Podium from '../../assets/images/podium.svg';
 
+interface RankItem {
+    rank: number;
+    userId: number;
+    nickname: string;
+    chatRecordNumber: number;
+}
+
 export default function Ranking() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
     const bottomSheetRef = useRef<BottomSheet>(null);
     const [snapPoints] = useState(['40%', '80%']);
-    const handleSheetChanges = useCallback((index: number) => console.log(index), []);
+    const handleSheetChanges = useCallback((index: number) => console.log(index), []);const [totalRanks, setTotalRanks] = useState<RankItem[]>([]);
+    const [myRank, setMyRank] = useState<RankItem | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         Font.loadAsync({
             BMJUA: require('../../assets/fonts/BMJUA.ttf'),
         }).then(() => setFontsLoaded(true));
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                setLoading(true);
+                // 전체 랭킹 조회
+                const totalRes = await apiFetch('/api/ranks/total');
+                const totalData = await totalRes.json();
+                if (totalRes.ok) setTotalRanks(totalData.data);
+        
+                // 내 랭킹 조회
+                const meRes = await apiFetch('/api/ranks/me');
+                const meData = await meRes.json();
+                if (meRes.ok) setMyRank(meData.data);
+        
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setLoading(false);
+            }
+        })();
     }, []);
 
     if (!fontsLoaded) return null;
@@ -54,44 +86,19 @@ export default function Ranking() {
 
                 {/* 시상대 */}
                 <View style={styles.podiumCirclesRow}>
-                    {/* 2등 */}
-                    <View style={[styles.rankWrapper, { marginBottom: -60 }]}>
+                    {totalRanks.slice(0, 3).map((user, index) => (
+                    <View key={user.userId} style={[styles.rankWrapper, { marginBottom: [-10, -60, -110][index] }]}>
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                             <Image 
-                                source={require('../../assets/images/rabbit-user-profile.png')} 
-                                style={{ width: 130, height: 130, marginTop: 30 }}
-                                resizeMode="contain" 
-                            />
+                        source={require('../../assets/images/rabbit-user-profile.png')} 
+                        style={{ width: 130, height: 130, marginTop: 30 }}
+                        resizeMode="contain" 
+                        />
                         </View>
-                        <Text style={styles.podiumName}>김철수</Text>
-                        <Text style={styles.podiumCount}>14개</Text>
+                        <Text style={styles.podiumName}>{user.nickname}</Text>
+                        <Text style={styles.podiumCount}>{user.chatRecordNumber}개</Text>
                     </View>
-
-                    {/* 1등 */}
-                    <View style={[styles.rankWrapper, { marginBottom: -10 }]}>
-                        <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
-                                <Image 
-                                    source={require('../../assets/images/rabbit-user-profile.png')} 
-                                    style={{ width: 130, height: 130, marginTop: 30 }}
-                                    resizeMode="contain" 
-                                />
-                            </View>
-                        <Text style={styles.podiumName}>신짱구</Text>
-                        <Text style={styles.podiumCount}>15개</Text>
-                    </View>
-
-                    {/* 3등 */}
-                    <View style={[styles.rankWrapper, { marginBottom: -110 }]}>
-                        <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
-                                <Image 
-                                    source={require('../../assets/images/rabbit-user-profile.png')} 
-                                    style={{ width: 130, height: 130, marginTop: 30 }}
-                                    resizeMode="contain" 
-                                />
-                        </View>
-                        <Text style={styles.podiumName}>맹구</Text>
-                        <Text style={styles.podiumCount}>13개</Text>
-                    </View>
+                    ))}
                 </View>
 
                 <Podium width={350} height={500} />
@@ -107,10 +114,9 @@ export default function Ranking() {
                     backgroundStyle={styles.BSContainer}
                 >
                     <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
-                        <Card name="정지윤" rank={4} count={12} />
-                        <Card name="김은지" rank={5} count={10} />
-                        <Card name="양나슬" rank={6} count={9} />
-                        <Card name="이채우" rank={7} count={8} />
+                        {totalRanks.slice(3).map(user => (
+                            <Card key={user.userId} name={user.nickname} rank={user.rank} count={user.chatRecordNumber} />
+                        ))}
                     </BottomSheetScrollView>
                 </BottomSheet>
 
@@ -133,8 +139,8 @@ export default function Ranking() {
 
                         {/* 이름 및 개수 */}
                         <View style={styles.rankInfoWrapper}>
-                            <Text style={styles.cardName}>정지윤</Text>
-                            <Text style={styles.cardCount}>4개</Text>
+                            <Text style={styles.cardName}>{myRank?.nickname ?? ''}</Text>
+                            <Text style={styles.cardCount}>{myRank?.chatRecordNumber ?? 0}개</Text>
                         </View>
 
                         {/* 공유 아이콘 */}

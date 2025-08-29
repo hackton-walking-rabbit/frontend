@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({ title, showBackButton, onBackPre
 
     const styles = StyleSheet.create({
     container: {
-        height: 80,
+        height: 100,
         backgroundColor: '#338D29', 
         justifyContent: 'center',
         alignItems: 'center',
@@ -42,6 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ title, showBackButton, onBackPre
     },
     title: {
         fontSize: 20,
+        paddingTop: 10,
         color: 'white',
     },
     backButton: {
