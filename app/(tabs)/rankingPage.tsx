@@ -1,6 +1,7 @@
+import { ViewBox } from '@/components/View';
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import Podium from '../../assets/images/podium.svg';
 
 export default function Ranking() {
@@ -13,6 +14,32 @@ export default function Ranking() {
     }, []);
 
     if (!fontsLoaded) return null;
+
+      const Card = ({ title, count }: {title: string, count: number }) => {
+        return (
+          <ViewBox style={styles.cardWrapper}>
+            {count>1 &&<ViewBox style={styles.behindBox}/> }
+    
+            <ViewBox style={styles.card}>
+              <ViewBox style={{backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', margin:10, gap: 10}}>
+                <Image source={require('../../assets/images/magnolia.png')} style={styles.image} resizeMode='contain'/>
+                <Text style={styles.title}>{title}</Text>
+              </ViewBox>
+    
+              <ViewBox style={{ backgroundColor: 'transparent', position: 'absolute', top: 10, right: 10}}>
+                <Image source={require('../../assets/images/share.png')} style={styles.share} resizeMode='contain'/>
+              </ViewBox>
+    
+              <ViewBox style={styles.positionContiner}>
+                <Text style={{color: '#ffffff', fontSize: 12}}>발견된 위치 보기</Text>
+                <Image source={require('../../assets/images/position.png')} style={styles.position} resizeMode='contain'/>
+              </ViewBox>
+            </ViewBox>
+          </ViewBox>
+        
+        )
+        
+      }
 
     return (
         <View style={styles.container}>
@@ -115,5 +142,52 @@ const styles = StyleSheet.create({
     },
     third: {
         marginBottom: -110, 
+    },
+
+    cardWrapper: {
+      width: 300,
+      height: 100,
+      marginTop: 10,
+    },
+    behindBox: {
+      position: 'absolute',
+      top: -7,
+      left: -7,
+      width: '100%',
+      height: '100%',
+      borderRadius: 20,
+      backgroundColor: '#338D29'
+    },
+    card: {
+        backgroundColor: '#77BC6F',
+        width: 300,
+        height: 100,
+        borderRadius: 20,
+        flexDirection: 'row',
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        position: 'relative'
+    },
+
+    image: {
+        width: 58,
+        height: 76,
+    },
+    share: {
+        width: 20,
+        height: 20,
+    },
+    positionContiner: {
+        backgroundColor: 'transparent', 
+        position: 'absolute', 
+        bottom: 10, 
+        right: 10, 
+        flexDirection: 'row',
+        alignItems:'center'
+    },
+    position: {
+        width: 20,
+        height: 20,
     },
 });
