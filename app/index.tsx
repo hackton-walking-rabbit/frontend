@@ -58,7 +58,7 @@ export default function Loading() {
                     iterationCount={"infinite"}
                     duration={1200}
                     easing={"ease-in-out"}
-                    source={require('../assets/images/rabbit-admin1.png')} 
+                    source={require('../assets/images/rabbit-admin.png')} 
                     style={styles.rabbit}
                     resizeMode="contain"
                 />
