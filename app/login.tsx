@@ -1,3 +1,4 @@
+import { apiFetch } from '@/api/apiClient';
 import { ViewBox } from '@/components/View';
 import { useRouter } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
@@ -14,21 +15,20 @@ export default function Login() {
     const subscription = Linking.addListener('url', (event) => {
         const url = event.url;
         // const token = url.split('accessToken=')[1];
-        const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NDE5OTUyMjAzIiwiaWF0IjoxNzU2NDY2NTYwLCJleHAiOjE3NTY1NTI5NjB9.JO-F4boeZaABGUTuExqZp-mT2tXB8XiTsadlgkpT1_s';
-        if (token) {
-        saveAccessToken(token);
+        // if (token) {
+        // saveAccessToken(token);
         router.replace('/surveyPage');
-        }
+        // }
     });
 
     // 앱 처음 실행 시 URL 체크
     Linking.getInitialURL().then(url => {
         if (url) {
-        const token = url.split('accessToken=')[1];
-        if (token) {
-            saveAccessToken(token);
+        // const token = url.split('accessToken=')[1];
+        // if (token) {
+        //     saveAccessToken(token);
             router.replace('/surveyPage');
-        }
+        // }
         }
     });
 
@@ -39,7 +39,7 @@ export default function Login() {
 
     const kakaoLogin = async () => {
         try {
-            const response = await fetch("/api/auth/request", {
+            const response = await apiFetch("api/auth/request", {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',

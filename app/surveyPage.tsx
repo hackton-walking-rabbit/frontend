@@ -1,9 +1,10 @@
+import { apiFetch } from '@/api/apiClient';
 import Constants from 'expo-constants';
 import { useFonts } from 'expo-font';
 import * as Location from 'expo-location';
 import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { Header } from '../components/ui/Header';
 
@@ -102,6 +103,45 @@ export default function SurveyPage() {
         </html>
     `;
 
+    const handleSubmit = async () => {
+        if (!coords) {
+            Alert.alert("위치 정보를 불러오는 중입니다. 잠시 후 다시 시도해주세요.");
+            return;
+        }
+
+        const selectedLabel = selectedIndex !== null ? checkboxLabels[selectedIndex] : null;
+        const content = selectedLabel === '기타' ? otherText : selectedLabel;
+
+        if (!content) {
+            Alert.alert("설문 내용을 선택하거나 입력해주세요.");
+            return;
+        }
+
+        try {
+            const res = await apiFetch('api/surveys', {
+                method: 'POST',
+                body: JSON.stringify({
+                    latitude: coords.latitude,
+                    longitude: coords.longitude,
+                    content,
+                }),
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                console.log("설문 제출 성공", data);
+                Alert.alert("참여해주셔서 감사합니다!");
+                router.push('/(tabs)/mapPage');
+            } else {
+                console.error("설문 제출 실패", data);
+                Alert.alert("제출 실패: " + (data.message || "알 수 없는 오류"));
+            }
+        } catch (err) {
+            console.error("API 요청 중 오류 발생", err);
+            Alert.alert("네트워크 오류가 발생했습니다.");
+        }
+    };
+
     return (
         <>
             <Stack.Screen options={{ headerShown: false }} />  
@@ -150,7 +190,8 @@ export default function SurveyPage() {
                 {/* 제출 버튼 */}
                 <Pressable
                     style={[styles.submitButton, { bottom: keyboardVisible ? '40%' : 50 }]}
-                    onPress={() => router.push('/(tabs)/mapPage')}
+                    // onPress={() => router.push('/(tabs)/mapPage')}
+                    onPress={handleSubmit}
                 >
                     <Text style={styles.submitButtonText}>제출</Text>
                 </Pressable>

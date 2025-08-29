@@ -93,7 +93,7 @@ export default function MapPage() {
 
 const createTodayMission = async () => {
   try {
-    const response = await apiFetch('/api/missions/create', {
+    const response = await apiFetch('api/missions/create', {
       method: 'POST',
     });
 
