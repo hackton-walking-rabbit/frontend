@@ -39,7 +39,7 @@ export default function Login() {
 
     const kakaoLogin = async () => {
         try {
-            const response = await fetch("https://5f4a6f0192e9.ngrok-free.app/api/auth/request", {
+            const response = await fetch("/api/auth/request", {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export default function Login() {
             
             if (response.ok) {
                 const kakaoURL = data.data;
-                Linking.openURL(kakaoURL);
+                Linking.openURL('https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=b60c28e29c672438af85d6fb690d541c&redirect_uri=https://5f4a6f0192e9.ngrok-free.app/api/auth/kakao/callback');
             }
             else {
                 console.error("URL 요청 실패",data);

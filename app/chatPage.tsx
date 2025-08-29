@@ -26,6 +26,8 @@ export default function ChatPage() {
         return null; 
     }
 
+    
+
     return (
         <>
             <Stack.Screen options={{ headerShown: false }} />

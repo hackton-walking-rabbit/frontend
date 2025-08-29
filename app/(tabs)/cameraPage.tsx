@@ -3,7 +3,6 @@ import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import MagnifierIcon from '../../assets/images/magnifier.svg';
-
 // expo install expo-camera
 // expo install react-native-svg
 // yarn add react-native-svg-transformer
