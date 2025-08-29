@@ -92,14 +92,10 @@ const makeMissionStatus = (data: CalendarDay[], year: number, month: number) => 
 };
 
 const makePhotosByDate = (data: CalendarDay[], year: number, month: number) => {
-  const photos: Record<string, {title: string; count: number}[]> = {};
+  const photos: Record<string, ChatRecord[]> = {};
   data.forEach(d => {
     const date = `${year}-${String(month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}`;
-    const grouped: Record<string, number> = {};
-    d.chatRecords.forEach(c => {
-      grouped[c.title] = (grouped[c.title] ?? 0) + 1;
-    });
-    photos[date] = Object.entries(grouped).map(([title, count]) => ({title, count}));
+    photos[date] = d.chatRecords;
   });
   return photos;
 };
@@ -193,7 +189,7 @@ export default function Encyclopedia() {
 
    const [photoCounts, setPhotoCounts] = useState<Record<string, number>>({});
   const [missionStatus, setMissionStatus] = useState<Record<string, number>>({});
-  const [photosByDate, setPhotosByDate] = useState<Record<string, {title: string; count: number}[]>>({});
+  const [photosByDate, setPhotosByDate] = useState<Record<string, ChatRecord[]>>({});
 
   const fetchCalendar = async (year: number, month: number) => {
     try {
@@ -332,19 +328,21 @@ export default function Encyclopedia() {
 
         <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
           {selected && !expandedFlower &&
-            photosByDate[selected]?.map((photo, index) => (
-              <TouchableOpacity key={index} onPress={() => handleCardPress(photo.title)}>
-                <Card title={photo.title} count={photo.count} />
-              </TouchableOpacity>
-            ))
-          }
+  (photosByDate[selected] ?? []).map((record) => (
+    <TouchableOpacity key={record.chatRecordId} onPress={() => handleCardPress(record.title)}>
+      <Card title={record.title} count={1} />
+    </TouchableOpacity>
+  ))
+}
 
           {selected && expandedFlower &&
-          (photosByDate[selected] ?? [])
-            .filter(photo => photo.title === expandedFlower)
-            .map((photo, index) => (
-              <Card key={index} title={photo.title} count={1} />
-            ))
+          (photosByDate[selected] ?? []).map(record => (
+      <Card 
+        key={record.chatRecordId} 
+        title={record.title} 
+        count={1} // 각 카드가 하나의 chatRecord를 나타내므로 count는 1
+      />
+    ))
           }
         </BottomSheetScrollView>
       </BottomSheet>
