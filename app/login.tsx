@@ -11,7 +11,8 @@ export default function Login() {
     useEffect(() => {
     const subscription = Linking.addListener('url', (event) => {
         const url = event.url;
-        const token = url.split('accessToken=')[1];
+        // const token = url.split('accessToken=')[1];
+        const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NDE5OTUyMjAzIiwiaWF0IjoxNzU2NDY2NTYwLCJleHAiOjE3NTY1NTI5NjB9.JO-F4boeZaABGUTuExqZp-mT2tXB8XiTsadlgkpT1_s';
         if (token) {
         saveAccessToken(token);
         router.replace('/surveyPage');
@@ -71,8 +72,8 @@ export default function Login() {
 
 
                 {/*일단 누르면 메인페이지로 이동하도록 해둠*/}
-                <Pressable style={styles.loginBox} onPress={kakaoLogin}>
-                {/* <Pressable style={styles.loginBox} onPress={() => router.replace('/surveyPage')}> */}
+                {/* <Pressable style={styles.loginBox} onPress={kakaoLogin}> */}
+                <Pressable style={styles.loginBox} onPress={() => router.replace('/surveyPage')}>
                         <Image source={require('../assets/images/kakaoIcon.webp')} style={styles.kakaoIcon} resizeMode='contain'/>
                         <Text style={styles.loginText}>카카오 계정으로 계속하기</Text> 
                 </Pressable>
