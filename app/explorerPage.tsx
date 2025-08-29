@@ -3,6 +3,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import FlowerPink2 from '../assets/images/flower-pink-2.svg';
+import FlowerPink1 from '../assets/images/flower-pink.svg';
+import FlowerWhite2 from '../assets/images/flower-white-2.svg';
+import FlowerWhite1 from '../assets/images/flower-white.svg';
 import MapIcon from '../assets/images/map.svg';
 import ShareIcon from '../assets/images/share.svg';
 
@@ -59,6 +63,11 @@ export default function ExplorerPage() {
                         end={{ x: 0, y: 0 }}
                         style={[styles.shadowEdge, { top: 0, bottom: 0, right: 0, width: 15 }]}
                     />
+
+                    <FlowerPink1 width={45} height={45} style={styles.flowerPink1} />
+                    <FlowerWhite2 width={55} height={55} style={styles.flowerWhite2} />
+                    <FlowerWhite1 width={45} height={45} style={styles.flowerWhite1} />
+                    <FlowerPink2 width={55} height={55} style={styles.flowerPink2} />
 
                     <View style={styles.centerWrapper}>
                         <Text style={styles.overlayText}>
@@ -135,6 +144,26 @@ const styles = StyleSheet.create({
     },
     shadowEdge: {
         position: 'absolute',
+    },
+    flowerWhite2: {
+        position: 'absolute',
+        top: '25%',
+        right: '6%',
+    },
+    flowerPink1: {
+        position: 'absolute',
+        top: '7%',
+        left: '10%',
+    },
+    flowerPink2: {
+        position: 'absolute',
+        bottom: '18%',
+        right: '10%',
+    },
+    flowerWhite1: {
+        position: 'absolute',
+        bottom: '15%',
+        left: '10%',
     },
     centerWrapper: {
         flex: 1,
