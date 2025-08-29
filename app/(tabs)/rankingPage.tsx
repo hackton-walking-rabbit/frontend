@@ -32,8 +32,8 @@ export default function Ranking() {
                     <View style={[styles.rankImage, { overflow: 'hidden' }]}>
                         <Image 
                             source={require('../../assets/images/rabbit-user-profile.png')} 
-                            style={{ width: 95, height: 95, marginTop: 40, marginLeft: 10 }}
-                            resizeMode="cover" 
+                            style={{ width: 95, height: 95, marginTop: 20 }}
+                            resizeMode="contain" 
                         />
                     </View>
 
@@ -42,14 +42,6 @@ export default function Ranking() {
                         <Text style={styles.cardName}>{name}</Text>
                         <Text style={styles.cardCount}>{count}개</Text>
                     </View>
-
-
-                    <ViewBox style={{ backgroundColor: 'transparent', position: 'absolute', top: 10, right: 10}}>
-                        <Image
-                            source={require('../../assets/images/share.png')}
-                            style={styles.share}
-                            resizeMode='contain'/>
-                    </ViewBox>
                 </ViewBox>
             </ViewBox>
         )
@@ -67,8 +59,8 @@ export default function Ranking() {
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                             <Image 
                                 source={require('../../assets/images/rabbit-user-profile.png')} 
-                                style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
-                                resizeMode="cover" 
+                                style={{ width: 130, height: 130, marginTop: 30 }}
+                                resizeMode="contain" 
                             />
                         </View>
                         <Text style={styles.podiumName}>김철수</Text>
@@ -80,8 +72,8 @@ export default function Ranking() {
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                                 <Image 
                                     source={require('../../assets/images/rabbit-user-profile.png')} 
-                                    style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
-                                    resizeMode="cover" 
+                                    style={{ width: 130, height: 130, marginTop: 30 }}
+                                    resizeMode="contain" 
                                 />
                             </View>
                         <Text style={styles.podiumName}>신짱구</Text>
@@ -93,8 +85,8 @@ export default function Ranking() {
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                                 <Image 
                                     source={require('../../assets/images/rabbit-user-profile.png')} 
-                                    style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
-                                    resizeMode="cover" 
+                                    style={{ width: 130, height: 130, marginTop: 30 }}
+                                    resizeMode="contain" 
                                 />
                         </View>
                         <Text style={styles.podiumName}>맹구</Text>
@@ -121,6 +113,40 @@ export default function Ranking() {
                         <Card name="이채우" rank={7} count={8} />
                     </BottomSheetScrollView>
                 </BottomSheet>
+
+                {/* 내 랭킹 카드 */}
+                <View style={styles.myRankingCard}>
+                    <View style={styles.myCard}>
+                        {/* 순위 */}
+                        <View style={styles.rankCircle}>
+                            <Text style={[styles.rankText, { color: '#FFC0CB' }]}>{7}</Text>
+                        </View>
+
+                        {/* 프로필 사진 */}
+                        <View style={{ width: 58, height: 58, borderRadius: 50, marginLeft: 10, overflow: 'hidden' }}>
+                            <Image
+                                source={require('../../assets/images/rabbit-user-profile.png')}
+                                style={{ width: 98, height: 98, position: 'absolute', left: -18, top: -9 }}
+                                resizeMode="contain" 
+                            />
+                        </View>
+
+                        {/* 이름 및 개수 */}
+                        <View style={styles.rankInfoWrapper}>
+                            <Text style={styles.cardName}>정지윤</Text>
+                            <Text style={styles.cardCount}>4개</Text>
+                        </View>
+
+                        {/* 공유 아이콘 */}
+                        <View style={{ position: 'absolute', top: 20, right: 20 }}>
+                            <Image
+                                source={require('../../assets/images/share.png')}
+                                style={styles.share}
+                                resizeMode="contain"
+                            />
+                        </View>
+                    </View>
+                </View>
             </View>
         </View>
     )
@@ -134,11 +160,11 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     title: {
-        fontSize: 28,
+        fontSize: 25,
         fontWeight: 'bold',
         color: '#338D29', 
-        marginTop: 40,
-        marginBottom: 20, 
+        marginTop: 20,
+        marginBottom: 15, 
         textAlign: 'center',
         fontFamily: 'BMJUA',
     },
@@ -182,7 +208,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 3,        
-        borderColor: '#338D29',  
+        borderColor: '#338D29', 
     },
     first: {
         marginBottom: -10,
@@ -212,7 +238,7 @@ const styles = StyleSheet.create({
         flex: 0,         
         alignSelf: 'center',
         width: '90%',       
-        height: 100,
+        height: 90,
         marginTop: 0,
     },
     card: {
@@ -269,8 +295,8 @@ const styles = StyleSheet.create({
         marginTop: 5,
     },
     share: {
-        width: 20,
-        height: 20,
+        width: 30,
+        height: 30,
     },
     positionContiner: {
         backgroundColor: 'transparent', 
@@ -288,5 +314,35 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
         alignItems: 'center',
         gap: 15,
+    },
+
+
+
+
+
+    myRankingCard: {
+        position: 'absolute',
+        bottom: 40, 
+        left: 0,
+        right: 0,
+        alignItems: 'center',
+        zIndex: 10, 
+    },
+    myCard: {
+        backgroundColor: '#FFC0CB',
+        width: '90%',
+        height: 90,
+        borderRadius: 20,
+        flexDirection: 'row',
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        position: 'relative',
+
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+        elevation: 5,
     },
 });
