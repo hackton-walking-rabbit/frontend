@@ -1,13 +1,19 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
+import { Image, Platform } from 'react-native';
 
 import { ViewBox } from '@/components/View';
 import { Header } from '@/components/ui/Header';
 import { HapticTab } from '@/components/ui/NavigationTab';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Image } from 'react-native';
+import Book_selected from '../../assets/images/book-selected.svg';
+import Book from '../../assets/images/book.svg';
+import Camera from '../../assets/images/camera.svg';
+import Map_selected from '../../assets/images/map-selected.svg';
+import Map from '../../assets/images/map-white.svg';
+import Trophy_selected from '../../assets/images/trophy-selected.svg';
+import Trophy from '../../assets/images/trophy.svg';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -34,11 +40,9 @@ export default function TabLayout() {
         name="bookPage"
         options={{
           title: '도감',
-          tabBarIcon: ({ color }) => (
-            <Image
-            source={require('../../assets/images/book.png')}
-            style={{ width: 40, height: 35 }}
-            />
+          tabBarIcon: ({ focused, color }) => (
+            focused ? <Book_selected/>
+                    : <Book/>
           ),
         }}
       />
@@ -46,12 +50,9 @@ export default function TabLayout() {
         name="rankingPage"
         options={{
           title: '랭킹',
-          tabBarIcon: ({ color }) => (
-            <Image
-              source={require('../../assets/images/trophy.png')}
-              style={{ width: 40, height: 40 }}
-              resizeMode="contain"
-            />
+          tabBarIcon: ({ focused, color }) => (
+            focused ? <Trophy_selected width={40} height={40}/>
+                    : <Trophy width={40} height={40}/>
           ),
         }}
       />
@@ -72,10 +73,7 @@ export default function TabLayout() {
                 marginTop: -70
               }}
             >
-              <Image 
-                source={require('../../assets/images/camera.png')}
-                style={{ width: 48, height: 35 }}
-              />
+              <Camera/>
             </ViewBox>
           ),
         }}
@@ -84,11 +82,10 @@ export default function TabLayout() {
         name="mapPage"
         options={{
           title: '지도',
-          tabBarIcon: ({ color }) => (
-            <Image  
-              source={require('../../assets/images/map-selected.png')}
-              style={{ width: 48, height: 40 }}
-            />
+          tabBarIcon: ({ focused, color }) => (
+            focused ? <Map_selected/>
+                    : <Map/>
+            
           ),
         }}
       />
@@ -96,20 +93,21 @@ export default function TabLayout() {
         name="myPage"
         options={{
           title: '마이페이지',
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ focused, color }) => (
             <ViewBox
               style={{
-                width: 55,
-                height: 55,
+                width: 50,
+                height: 50,
                 borderRadius: 35,
                 borderWidth: 3,
-                borderColor: 'white',
+                borderColor: focused ? '#FFE066' : 'white',
                 overflow: 'hidden', // 이미지 자르기
                 justifyContent: 'center',
                 alignItems: 'center',
               }}
             >
-
+              {/* {focused ? <Profile_selected width={50} height={50}/>
+                      : <Profile width={50} height={50}/>} */}
               <Image
                 source={require('../../assets/images/rabbit-user-profile.png')}
                 style={{
