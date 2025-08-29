@@ -48,6 +48,6 @@ export const Header: React.FC<HeaderProps> = ({ title, showBackButton, onBackPre
     backButton: {
         position: 'absolute',
         left: 25,
-        top: 45,
+        top: 55,
     },
 });

@@ -77,7 +77,7 @@ export default function TabLayout() {
                 backgroundColor: '#338D29',
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginTop: -70
+                marginTop: -80
               }}
             >
               <Camera/>

@@ -90,8 +90,8 @@ export default function Ranking() {
                     <View key={user.userId} style={[styles.rankWrapper, { marginBottom: [-10, -60, -110][index] }]}>
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                             <Image 
-                        source={require('../../assets/images/rabbit-user-profile.png')} 
-                        style={{ width: 130, height: 130, marginTop: 30 }}
+                            source={require('../../assets/images/rabbit-user-profile.png')} 
+                            style={{ width: 130, height: 130, marginTop: 30 }}
                         resizeMode="contain" 
                         />
                         </View>
