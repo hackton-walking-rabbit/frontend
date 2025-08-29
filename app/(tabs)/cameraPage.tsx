@@ -1,51 +1,99 @@
+import { apiFetch } from '@/api/apiClient';
 import { Camera, CameraView } from 'expo-camera';
+import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import MagnifierIcon from '../../assets/images/magnifier.svg';
 // expo install expo-camera
 // expo install react-native-svg
 // yarn add react-native-svg-transformer
 
 export default function CameraPage() {
-    const [permission, setPermission] = useState<boolean | null>(null);
+    const [permission, setPermission] = useState<{ granted: boolean } | null>(null);
     const cameraRef = useRef<CameraView | null>(null);
     const [isReady, setIsReady] = useState(false);
     const router = useRouter();
+    const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
+
+    const requestPermission = async () => {
+        const { status, granted } = await Camera.requestCameraPermissionsAsync();
+        if (!granted) {
+            Alert.alert('권한 거부됨', '카메라 권한이 필요합니다.');
+        }
+        setPermission({ granted });
+    };
 
     useEffect(() => {
         (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setPermission(status === 'granted');
-            })();
+            try {
+                // 권한 요청
+                if (!permission?.granted) {
+                    await requestPermission();
+                }
+
+                // 위치 가져오기
+                const location = await Location.getCurrentPositionAsync({});
+                setCoords({
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                });
+            } catch (err) {
+                console.error(err);
+                alert('위치 또는 카메라 권한을 가져오는 중 오류가 발생했습니다.');
+            }
+        })();
     }, []);
-    
-    if (permission === null) {
-        return <View style={{ flex: 1, backgroundColor: 'black' }} />;
-    }
-    
-    if (permission === false) {
-        return (
-            <View style={styles.centered}>
-                <TouchableOpacity
-                    style={styles.retryButton}
-                    onPress={async () => {
-                        const { status } = await Camera.requestCameraPermissionsAsync();   
-                        setPermission(status === 'granted');
-                    }}
-                >
-                    <MagnifierIcon width={24} height={24} fill="#338D29" />
-                </TouchableOpacity>
-            </View>
-        );
-    }
+
+    const uploadPhoto = async () => {
+        if (!cameraRef.current) {
+            Alert.alert('카메라가 준비되지 않았습니다.');
+            return;
+        }
+        
+        try {
+            setIsReady(false);
+            const photo = await cameraRef.current.takePictureAsync({ base64: false });
+        
+            const formData = new FormData();
+            formData.append('file', {
+                uri: photo.uri,
+                name: 'photo.jpg',
+                type: 'image/jpeg',
+            } as any);
+            formData.append('meta', JSON.stringify({
+                missionId: null,
+                latitude: coords?.latitude,
+                longitude: coords?.longitude,
+            }));
+        
+            const response = await apiFetch('/messages/photo', {
+                method: 'POST',
+                body: formData,
+            });
+        
+            const data = await response.json();
+        
+            Alert.alert('서버 응답', JSON.stringify(data));
+        
+            if (response.ok) {
+                router.push('../chatPage');
+            }
+
+        } catch (err: any) {
+            console.error(err);
+            Alert.alert('오류', err.message || '사진 업로드 중 오류가 발생했습니다.');
+        } finally {
+            setIsReady(true);
+        }
+    };
 
     return (
         <View style={styles.container}>
             {/* 카메라 프리뷰 */}
             <CameraView
                 style={styles.camera}
-                facing="back"
+                facing="back"   
                 ref={cameraRef}
                 onCameraReady={() => setIsReady(true)}
             />
@@ -61,9 +109,7 @@ export default function CameraPage() {
                 <TouchableOpacity
                     style={styles.captureButton}
                     disabled={!isReady}
-                    onPress={async () => {
-                        router.push('../chatPage');
-                    }}
+                    onPress={uploadPhoto}
                 >
                     <MagnifierIcon
                         width={50}
