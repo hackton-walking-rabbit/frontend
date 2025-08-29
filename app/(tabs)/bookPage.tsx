@@ -1,8 +1,9 @@
 import { ViewBox } from '@/components/View';
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars';
+import BorderIcon from '../../assets/images/flower-border.svg';
 
 LocaleConfig.locales.ko = {
 monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -11,6 +12,33 @@ dayNames: ['일요일','월요일','화요일','수요일','목요일','금요�
 dayNamesShort: ['일','월','화','수','목','금','토'],
 };
 LocaleConfig.defaultLocale = 'ko';
+
+const photoCounts: Record<string, number> = {
+  '2025-08-29': 3,
+  '2025-08-30': 6,
+  '2025-08-31': 11,
+};
+
+const missionStatus: Record<string, number> = {
+  '2025-08-30': 200,
+}
+
+const getColor = (dateString: string): [string, string] => {
+  let bgColor = '#F1F1F1';
+  let textColor = '#338D29'
+  const count = photoCounts[dateString] ?? 0;
+
+  if (count === 0) bgColor = '#F1F1F1';
+  else if (count < 6) bgColor = '#EAFFC0';
+  else if (count < 11) bgColor = '#77BC6F';
+  else bgColor = '#338D29';
+
+  if (count > 5) textColor = '#ffffff'
+
+  return [bgColor, textColor];
+}
+
+
 
 type DayProps = {
   date?: DateData; 
@@ -32,10 +60,10 @@ const DotDay = (({ date, state, onPress, marking, selected }: DayProps & {select
 
   const isSelected = selected === date.dateString;
   const isInactive = state === "disabled" || state === "inactive"; // 이전/다음 달 날짜
-  const textColor = isSelected ? '#ffffff' : (isInactive ? '#9FA59A' : '#338D29');
 
+  const [bgColor, countTextColor] = date.dateString ? getColor(date.dateString): ['#F1F1F1', '#338D29'];
+  const textColor = isInactive ? '#9FA59A' : countTextColor;
 
-  const backgroundColor = isSelected ? '#77BC6F' : marking?.selectedColor ?? '#F1F1F1';
 
   return (
     <TouchableOpacity
@@ -43,12 +71,19 @@ const DotDay = (({ date, state, onPress, marking, selected }: DayProps & {select
       activeOpacity={0.8}
       style={{ alignItems: 'center', justifyContent: 'center', marginBottom: 2}}
     >
+      {missionStatus[date.dateString] === 200 &&
+        <BorderIcon 
+          width = {isSelected ? 35 : 30}
+          height = {isSelected ? 35 : 30}
+          style={styles.missionBorder}
+        />
+      }
       <ViewBox
         style={{
           width: isSelected ? 25 : 22,
           height: isSelected ? 25 : 22,
           borderRadius: 13,
-          backgroundColor,
+          backgroundColor: bgColor,
           alignItems: 'center',
           justifyContent: 'center',
         }}
@@ -238,6 +273,16 @@ const styles = StyleSheet.create({
       marginRight: 30,
     },
 
+    missionBorder: {
+      position: 'absolute',
+      top: -5
+    },
+//width: isSelected ? 25 : 22,
+          // height: isSelected ? 25 : 22,
+          // borderRadius: 13,
+          // backgroundColor: bgColor,
+          // alignItems: 'center',
+          // justifyContent: 'center',
 
   
     BSContainer: {
