@@ -39,20 +39,6 @@ const photosByDate: Record<string, { title: string, count: number }[]> = {
   ],
 };
 
-// const getColor = (dateString: string): [string, string] => {
-//   let bgColor = '#F1F1F1';
-//   let textColor = '#338D29'
-//   const count = photoCounts[dateString] ?? 0;
-
-//   if (count === 0) bgColor = '#F1F1F1';
-//   else if (count < 6) bgColor = '#EAFFC0';
-//   else if (count < 11) bgColor = '#77BC6F';
-//   else bgColor = '#338D29';
-
-//   if (count > 5) textColor = '#ffffff'
-
-//   return [bgColor, textColor];
-// }
 
 type ChatRecord = {
   chatRecordId: number;
@@ -120,9 +106,6 @@ const DotDay = (({ date, state, onPress, marking, selected }: DayProps & {select
 
   const isSelected = selected === date.dateString;
   const isInactive = state === "disabled" || state === "inactive"; // 이전/다음 달 날짜
-
-  // const [bgColor, countTextColor] = date.dateString ? getColor(date.dateString): ['#F1F1F1', '#338D29'];
-  // const textColor = isInactive ? '#9FA59A' : countTextColor;
 
     const count = photoCounts[date.dateString] ?? 0;
     let bgColor = '#F1F1F1';
@@ -277,7 +260,6 @@ export default function Encyclopedia() {
         }}
         enableSwipeMonths={true}
          onMonthChange={(month) => {
-            // month: { year: number, month: number, timestamp: number, dateString: string }
             fetchCalendar(month.year, month.month);
           }}
 
@@ -328,21 +310,21 @@ export default function Encyclopedia() {
 
         <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
           {selected && !expandedFlower &&
-  (photosByDate[selected] ?? []).map((record) => (
-    <TouchableOpacity key={record.chatRecordId} onPress={() => handleCardPress(record.title)}>
-      <Card title={record.title} count={1} />
-    </TouchableOpacity>
-  ))
-}
+            (photosByDate[selected] ?? []).map((record) => (
+              <TouchableOpacity key={record.chatRecordId} onPress={() => handleCardPress(record.title)}>
+                <Card title={record.title} count={1} />
+              </TouchableOpacity>
+            ))
+          }
 
           {selected && expandedFlower &&
           (photosByDate[selected] ?? []).map(record => (
-      <Card 
-        key={record.chatRecordId} 
-        title={record.title} 
-        count={1} // 각 카드가 하나의 chatRecord를 나타내므로 count는 1
-      />
-    ))
+            <Card 
+              key={record.chatRecordId} 
+              title={record.title} 
+              count={1} 
+            />
+          ))
           }
         </BottomSheetScrollView>
       </BottomSheet>
