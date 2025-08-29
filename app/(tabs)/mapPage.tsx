@@ -1,13 +1,15 @@
 import { ViewBox } from '@/components/View';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
+import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
+import CameraIcon from '../../assets/images/camera.svg';
 import CarrotIcon from '../../assets/images/carrot.svg';
 
-
 export default function MapPage() {
+    const router = useRouter();
     const KAKAO_MAP_KEY = Constants.expoConfig?.extra?.kakaoMapKey;
     const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
     const [showBubble, setShowBubble] = useState(false);
@@ -108,9 +110,18 @@ export default function MapPage() {
                                 style={styles.bubbleImage}
                                 resizeMode="contain"
                             />
-                            <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 },]}>
-                                분홍색 꽃을 찾아보자 🌸
-                            </Text>
+
+                            <View style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 10 }}>
+                                <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 }]}>
+                                    분홍색 꽃을 찾아보자 🌸
+                                </Text>
+                                {/* 카메라 버튼 */}
+                                <TouchableOpacity
+                                    style={styles.cameraButton} onPress={() => router.replace('/cameraPage')}
+                                >
+                                    <CameraIcon width={24} height={24} />
+                                </TouchableOpacity>
+                            </View>
                         </ViewBox>
                     </ViewBox>
                 </>
@@ -197,4 +208,14 @@ const styles = StyleSheet.create({
         top: 0,
         left: 5,
     },
+
+
+    cameraButton: {
+        width: 170,
+        height: 30,
+        borderRadius: 10,
+        backgroundColor: '#338D29',
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
