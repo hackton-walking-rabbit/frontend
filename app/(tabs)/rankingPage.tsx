@@ -32,7 +32,7 @@ export default function Ranking() {
                     <View style={[styles.rankImage, { overflow: 'hidden' }]}>
                         <Image 
                             source={require('../../assets/images/rabbit-user-profile.png')} 
-                            style={{ width: 90, height: 90, marginTop: 30, marginLeft: 10 }}
+                            style={{ width: 95, height: 95, marginTop: 40, marginLeft: 10 }}
                             resizeMode="cover" 
                         />
                     </View>
@@ -63,11 +63,11 @@ export default function Ranking() {
                 {/* 시상대 */}
                 <View style={styles.podiumCirclesRow}>
                     {/* 2등 */}
-                    <View style={[styles.rankWrapper, { marginBottom: -50 }]}>
+                    <View style={[styles.rankWrapper, { marginBottom: -60 }]}>
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                             <Image 
                                 source={require('../../assets/images/rabbit-user-profile.png')} 
-                                style={{ width: 120, height: 120, borderRadius: 50, marginTop: 40, marginLeft: 10 }}
+                                style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
                                 resizeMode="cover" 
                             />
                         </View>
@@ -76,11 +76,11 @@ export default function Ranking() {
                     </View>
 
                     {/* 1등 */}
-                    <View style={[styles.rankWrapper, { marginBottom: 0 }]}>
+                    <View style={[styles.rankWrapper, { marginBottom: -10 }]}>
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                                 <Image 
                                     source={require('../../assets/images/rabbit-user-profile.png')} 
-                                    style={{ width: 120, height: 120, borderRadius: 50, marginTop: 40, marginLeft: 10 }}
+                                    style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
                                     resizeMode="cover" 
                                 />
                             </View>
@@ -93,7 +93,7 @@ export default function Ranking() {
                         <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
                                 <Image 
                                     source={require('../../assets/images/rabbit-user-profile.png')} 
-                                    style={{ width: 120, height: 120, borderRadius: 50, marginTop: 40, marginLeft: 10 }}
+                                    style={{ width: 120, height: 120, marginTop: 50, marginLeft: 10 }}
                                     resizeMode="cover" 
                                 />
                         </View>
@@ -209,14 +209,16 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     cardWrapper: {
-        width: 300,
+        flex: 0,         
+        alignSelf: 'center',
+        width: '90%',       
         height: 100,
         marginTop: 0,
     },
     card: {
         backgroundColor: '#77BC6F',
-        width: 300,
-        height: 100,
+        flex: 1,       
+        height: '100%',
         borderRadius: 20,
         flexDirection: 'row',
         padding: 10,
