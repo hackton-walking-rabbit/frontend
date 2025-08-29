@@ -2,8 +2,10 @@ import { ViewBox } from '@/components/View';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
+import CarrotIcon from '../../assets/images/carrot.svg';
+
 
 export default function MapPage() {
     const KAKAO_MAP_KEY = Constants.expoConfig?.extra?.kakaoMapKey;
@@ -81,25 +83,24 @@ export default function MapPage() {
                 style={styles.missionButton}
                 onPress={() => setShowBubble(!showBubble)}
             >
-                <Image 
-                    source={require('../../assets/images/carrot.png')}
-                    style={{ width: 40, height: 40 }}
-                    resizeMode="contain"
+                <CarrotIcon
+                    width={40}
+                    height={40}
+                    style={{ transform: [{ rotate: '30deg' }] }}
                 />
             </TouchableOpacity>
 
             {showBubble && (
                 <>
                     {/* 말풍선 꼬리 */}
-                    <ViewBox style={styles.bubbleTailContainer}>
-                        <ViewBox style={styles.bubbleTailBorder} />
-                        <ViewBox style={styles.bubbleTailInner} />
-                    </ViewBox>
+                    <View style={styles.bubbleTailContainer}>
+                        <View style={styles.bubbleTailBorder} />
+                        <View style={styles.bubbleTailInner} />
+                    </View>
 
                     {/* 말풍선 */}
                     <ViewBox style={styles.bubble}>
                         <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo' }]}>오늘의 미션!</Text>
-
                         {/* 이미지 + 미션 */}
                         <ViewBox style={styles.bubbleContent}>
                             <Image 
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     },
     missionButton: {
         position: 'absolute',
-        top: 165, 
+        top: 55, 
         left: 20,
         width: 50,
         height: 50,
@@ -140,12 +141,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         height: 140,
         width: '70%',
-        top: 145,
+        top: 40,
         left: 90,
         borderRadius: 8,
         borderWidth: 2,
         borderColor: '#338D29', 
-        backgroundColor: 'white',
+        backgroundColor: '#F7FFE8',
         zIndex: 1,
         flexDirection: 'column',
         alignItems: 'center',
@@ -154,24 +155,25 @@ const styles = StyleSheet.create({
     bubbleText: {
         color: '#338D29',
         fontWeight: 'bold',
-        fontSize: 25,
+        fontSize: 20,
     },
     bubbleContent: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
-        marginTop: 10,
         gap: 5,
+        backgroundColor: '#F7FFE8',
     },
     bubbleImage: {
-        width: 50,  
-        height: 80,
+        width: 60,  
+        height: 90,
     },
     bubbleTailContainer: {
         position: 'absolute',
-        top: 165, 
+        top: 60, 
         left: 75,
+        zIndex: 1,
     },
     bubbleTailBorder: {
         borderLeftWidth: 17, 
@@ -182,18 +184,17 @@ const styles = StyleSheet.create({
         borderBottomColor: '#338D29', 
         position: 'absolute',
         top: -2,
-        left: 4,
+        left: 0,
     },
     bubbleTailInner: {
-        borderLeftWidth: 10, 
-        borderRightWidth: 10,
-        borderBottomWidth: 20,
+        borderLeftWidth: 13, 
+        borderRightWidth: 13,
+        borderBottomWidth: 23,
         borderLeftColor: 'transparent',
         borderRightColor: 'transparent',
-        borderBottomColor: 'white', 
+        borderBottomColor: '#F7FFE8', 
         position: 'absolute',
-        top: 2,
-        left: 10,
-        zIndex: 1000,
+        top: 0,
+        left: 5,
     },
 });
