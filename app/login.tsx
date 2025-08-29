@@ -37,7 +37,7 @@ export default function Login() {
 
     const kakaoLogin = async () => {
         try {
-            const response = await fetch("https://534070e0dfc1.ngrok-free.app/api/auth/request", {
+            const response = await fetch("https://5f4a6f0192e9.ngrok-free.app/api/auth/request", {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
