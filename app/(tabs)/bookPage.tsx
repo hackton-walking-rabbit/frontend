@@ -1,6 +1,7 @@
+import { apiFetch } from '@/api/apiClient';
 import { ViewBox } from '@/components/View';
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars';
 import BorderIcon from '../../assets/images/flower-border.svg';
@@ -38,22 +39,70 @@ const photosByDate: Record<string, { title: string, count: number }[]> = {
   ],
 };
 
-const getColor = (dateString: string): [string, string] => {
-  let bgColor = '#F1F1F1';
-  let textColor = '#338D29'
-  const count = photoCounts[dateString] ?? 0;
+// const getColor = (dateString: string): [string, string] => {
+//   let bgColor = '#F1F1F1';
+//   let textColor = '#338D29'
+//   const count = photoCounts[dateString] ?? 0;
 
-  if (count === 0) bgColor = '#F1F1F1';
-  else if (count < 6) bgColor = '#EAFFC0';
-  else if (count < 11) bgColor = '#77BC6F';
-  else bgColor = '#338D29';
+//   if (count === 0) bgColor = '#F1F1F1';
+//   else if (count < 6) bgColor = '#EAFFC0';
+//   else if (count < 11) bgColor = '#77BC6F';
+//   else bgColor = '#338D29';
 
-  if (count > 5) textColor = '#ffffff'
+//   if (count > 5) textColor = '#ffffff'
 
-  return [bgColor, textColor];
-}
+//   return [bgColor, textColor];
+// }
 
+type ChatRecord = {
+  chatRecordId: number;
+  photo: string;
+  title: string;
+  missionId: number | null;
+};
+type CalendarDay = {
+  day: number;
+  recordSum: number;
+  chatRecords: ChatRecord[];
+};
+type CalendarResponse = {
+  status: number;
+  message: string;
+  data: CalendarDay[];
+};
 
+const makePhotoCounts = (data: CalendarDay[], year: number, month: number) => {
+  const counts: Record<string, number> = {};
+  data.forEach(d => {
+    const date = `${year}-${String(month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}`;
+    counts[date] = d.recordSum;
+  });
+  return counts;
+};
+
+const makeMissionStatus = (data: CalendarDay[], year: number, month: number) => {
+  const status: Record<string, number> = {};
+  data.forEach(d => {
+    const date = `${year}-${String(month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}`;
+    if (d.chatRecords.some(c => c.missionId !== null)) {
+      status[date] = 200;
+    }
+  });
+  return status;
+};
+
+const makePhotosByDate = (data: CalendarDay[], year: number, month: number) => {
+  const photos: Record<string, {title: string; count: number}[]> = {};
+  data.forEach(d => {
+    const date = `${year}-${String(month).padStart(2,"0")}-${String(d.day).padStart(2,"0")}`;
+    const grouped: Record<string, number> = {};
+    d.chatRecords.forEach(c => {
+      grouped[c.title] = (grouped[c.title] ?? 0) + 1;
+    });
+    photos[date] = Object.entries(grouped).map(([title, count]) => ({title, count}));
+  });
+  return photos;
+};
 
 type DayProps = {
   date?: DateData; 
@@ -76,9 +125,19 @@ const DotDay = (({ date, state, onPress, marking, selected }: DayProps & {select
   const isSelected = selected === date.dateString;
   const isInactive = state === "disabled" || state === "inactive"; // 이전/다음 달 날짜
 
-  const [bgColor, countTextColor] = date.dateString ? getColor(date.dateString): ['#F1F1F1', '#338D29'];
-  const textColor = isInactive ? '#9FA59A' : countTextColor;
+  // const [bgColor, countTextColor] = date.dateString ? getColor(date.dateString): ['#F1F1F1', '#338D29'];
+  // const textColor = isInactive ? '#9FA59A' : countTextColor;
 
+    const count = photoCounts[date.dateString] ?? 0;
+    let bgColor = '#F1F1F1';
+    let countTextColor = '#338D29';
+    if (count === 0) bgColor = '#F1F1F1';
+    else if (count < 6) bgColor = '#EAFFC0';
+    else if (count < 11) bgColor = '#77BC6F';
+    else bgColor = '#338D29';
+    if (count > 5) countTextColor = '#ffffff';
+
+    const textColor = isInactive ? '#9FA59A' : countTextColor;
 
   return (
     <TouchableOpacity
@@ -131,6 +190,31 @@ export default function Encyclopedia() {
   const today = new Date();
   const formattedToday = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
   const [selected, setSelected] = useState<string | undefined>(formattedToday);
+
+   const [photoCounts, setPhotoCounts] = useState<Record<string, number>>({});
+  const [missionStatus, setMissionStatus] = useState<Record<string, number>>({});
+  const [photosByDate, setPhotosByDate] = useState<Record<string, {title: string; count: number}[]>>({});
+
+  const fetchCalendar = async (year: number, month: number) => {
+    try {
+      const res = await apiFetch(`/api/calendar?year=${year}&month=${month}`, { method: "GET" });
+      if (!res.ok) {
+        console.error("캘린더 조회 실패", await res.text());
+        return;
+      }
+      const json: CalendarResponse = await res.json();
+      setPhotoCounts(makePhotoCounts(json.data, year, month));
+      setMissionStatus(makeMissionStatus(json.data, year, month));
+      setPhotosByDate(makePhotosByDate(json.data, year, month));
+    } catch (err) {
+      console.error("캘린더 불러오기 오류", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchCalendar(today.getFullYear(), today.getMonth() + 1);
+  }, []);
+
 
   const selectedDate = (dateString?: string) => {
     if (!dateString) return '';
@@ -192,6 +276,10 @@ export default function Encyclopedia() {
           setExpandedFlower(null);
         }}
         enableSwipeMonths={true}
+         onMonthChange={(month) => {
+            // month: { year: number, month: number, timestamp: number, dateString: string }
+            fetchCalendar(month.year, month.month);
+          }}
 
         
         renderHeader={(date) => (

@@ -118,7 +118,7 @@ export default function SurveyPage() {
         }
 
         try {
-            const res = await apiFetch('api/surveys', {
+            const res = await apiFetch('/api/surveys', {
                 method: 'POST',
                 body: JSON.stringify({
                     latitude: coords.latitude,
