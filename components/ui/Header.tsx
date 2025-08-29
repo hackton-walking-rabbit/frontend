@@ -1,12 +1,15 @@
 import { useFonts } from 'expo-font';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ArrowIcon from '../../assets/images/arrow-2.svg';
 
 interface HeaderProps {
     title: string;
+    showBackButton?: boolean; 
+    onBackPress?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ title }) => {
+export const Header: React.FC<HeaderProps> = ({ title, showBackButton, onBackPress }) => {
     // 폰트 로드
     const [fontsLoaded] = useFonts({
         Mynerve: require('../../assets/fonts/Mynerve-Regular.ttf'),
@@ -19,10 +22,15 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.title, { fontFamily: 'Mynerve', color: 'white' }]}>{title}</Text>
+            {showBackButton && (
+                <TouchableOpacity style={styles.backButton} onPress={onBackPress}>
+                    <ArrowIcon width={24} height={24} fill="white" />
+                </TouchableOpacity>
+            )}
+            <Text style={[styles.title, { fontFamily: 'Mynerve' }]}>{title}</Text>
         </View>
     );
-    };
+};
 
     const styles = StyleSheet.create({
     container: {
@@ -35,5 +43,10 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
     title: {
         fontSize: 20,
         color: 'white',
+    },
+    backButton: {
+        position: 'absolute',
+        left: 25,
+        top: 45,
     },
 });

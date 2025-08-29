@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { Tabs, useRouter } from 'expo-router';
 import React from 'react';
 import { Image, Platform } from 'react-native';
 
@@ -17,6 +17,7 @@ import Trophy from '../../assets/images/trophy.svg';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const router = useRouter();
 
   return (
     <Tabs
@@ -59,7 +60,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="cameraPage"
         options={{
-          title: '카메라',
+          header: () => (
+            <Header
+              title="Walking Rabbit"
+              showBackButton={true}
+              onBackPress={() => router.push('/mapPage')}
+            />
+          ),
           tabBarStyle: { display: 'none' }, // 카메라 페이지에서 숨기기
           tabBarIcon: ({ color }) => (
             <ViewBox
