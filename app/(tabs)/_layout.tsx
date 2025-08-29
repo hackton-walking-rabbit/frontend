@@ -106,8 +106,6 @@ export default function TabLayout() {
                 alignItems: 'center',
               }}
             >
-              {/* {focused ? <Profile_selected width={50} height={50}/>
-                      : <Profile width={50} height={50}/>} */}
               <Image
                 source={require('../../assets/images/rabbit-user-profile.png')}
                 style={{
