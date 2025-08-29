@@ -1,7 +1,9 @@
+import { apiFetch } from '@/api/apiClient';
 import { ViewBox } from '@/components/View';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -13,6 +15,8 @@ export default function MapPage() {
     const KAKAO_MAP_KEY = Constants.expoConfig?.extra?.kakaoMapKey;
     const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
     const [showBubble, setShowBubble] = useState(false);
+    const [mission, setMission] = useState<{ missionId: number; content: string } | null>(null);
+
 
     useEffect(() => {
         (async () => {
@@ -29,6 +33,22 @@ export default function MapPage() {
                 latitude: location.coords.latitude,
                 longitude: location.coords.longitude,
             });
+
+            const today = new Date().toISOString().split('T')[0];
+            const storedDate = await SecureStore.getItemAsync('missionDate');
+            const storedMission = await SecureStore.getItemAsync('todayMission');
+
+            if (storedDate === today && storedMission) {
+                setMission(JSON.parse(storedMission));
+            } else {
+                // 오늘의 미션 생성
+                const newMission = await createTodayMission();
+                if (newMission) {
+                    setMission(newMission);
+                    await SecureStore.setItemAsync('missionDate', today);
+                    await SecureStore.setItemAsync('todayMission', JSON.stringify(newMission));
+                }
+            }
         })();
     }, []);
     
@@ -70,6 +90,28 @@ export default function MapPage() {
             </body>
         </html>
     `;
+
+const createTodayMission = async () => {
+  try {
+    const response = await apiFetch('/api/missions/create', {
+      method: 'POST',
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('오늘의 미션 생성 실패', data);
+      return null;
+    }
+
+    console.log('오늘의 미션 생성 성공', data.data);
+    return data.data; // { missionId, content }
+
+  } catch (err: any) {
+    console.error('미션 생성 중 오류 발생', err.message || err);
+    return null;
+  }
+};
 
     return (
         <ViewBox style={styles.container}>
@@ -113,7 +155,8 @@ export default function MapPage() {
 
                             <View style={{ flexDirection: 'column', alignItems: 'flex-start', gap: 10 }}>
                                 <Text style={[styles.bubbleText, { fontFamily: 'DungGeunMo', fontSize: 16 }]}>
-                                    분홍색 꽃을 찾아보자 🌸
+                                    {/* 분홍색 꽃을 찾아보자 🌸 */}
+                                    {mission?.content}
                                 </Text>
                                 {/* 카메라 버튼 */}
                                 <TouchableOpacity
