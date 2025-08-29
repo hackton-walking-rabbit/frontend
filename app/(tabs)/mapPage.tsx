@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     },
     bubble: {
         position: 'absolute',
-        height: 140,
+        minHeight: 140,
         width: '70%',
         top: 40,
         left: 90,
@@ -217,11 +217,13 @@ const styles = StyleSheet.create({
         color: '#338D29',
         fontWeight: 'bold',
         fontSize: 20,
+        flexShrink: 1,      
+        flexWrap: 'wrap',
     },
     bubbleContent: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         width: '100%',
         gap: 5,
         backgroundColor: '#F7FFE8',
