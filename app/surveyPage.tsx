@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 import { useFonts } from 'expo-font';
 import * as Location from 'expo-location';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -16,6 +16,7 @@ export default function SurveyPage() {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [otherText, setOtherText] = useState('');
     const [keyboardVisible, setKeyboardVisible] = useState(false);
+    const router = useRouter();
 
     const toggleCheck = (index: number) => {
         setSelectedIndex(selectedIndex === index ? null : index);
@@ -124,7 +125,7 @@ export default function SurveyPage() {
                         />
                     </View>
                 ) : (
-                    <View style={{ height: '15%' }} />
+                    <View style={{ height: '5%' }} />
                 )}
 
                 <View style={styles.checkboxContainer}>
@@ -146,6 +147,13 @@ export default function SurveyPage() {
                     )}
                 </View>
             </KeyboardAvoidingView>
+                {/* 제출 버튼 */}
+                <Pressable
+                    style={[styles.submitButton, { bottom: keyboardVisible ? '40%' : 50 }]}
+                    onPress={() => router.push('/(tabs)/mapPage')}
+                >
+                    <Text style={styles.submitButtonText}>제출</Text>
+                </Pressable>
         </>
     );
 }
@@ -154,8 +162,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',
-        paddingTop: 30, 
-        paddingBottom: 20,
+        paddingTop: 30,
         alignItems: 'center',
         backgroundColor: '#F7FFE8', 
     },
@@ -225,6 +232,25 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 5,
         width: '90%',
+        fontSize: 16,
+    },
+
+
+
+
+
+    submitButton: {
+        position: 'absolute',
+        width: '80%',
+        marginTop: 20,
+        backgroundColor: '#338D29',
+        paddingVertical: 12,
+        borderRadius: 10,
+        alignSelf: 'center',
+        alignItems: 'center',
+    },
+    submitButtonText: {
+        color: '#fff',
         fontSize: 16,
     },
 });
