@@ -1,7 +1,7 @@
 import { Camera, CameraView } from 'expo-camera';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Dimensions, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import MagnifierIcon from '../../assets/images/magnifier.svg';
 
 // expo install expo-camera
@@ -13,7 +13,6 @@ export default function CameraPage() {
     const cameraRef = useRef<CameraView | null>(null);
     const [isReady, setIsReady] = useState(false);
     const router = useRouter();
-    const { height, width } = Dimensions.get('window');
 
     useEffect(() => {
         (async () => {
