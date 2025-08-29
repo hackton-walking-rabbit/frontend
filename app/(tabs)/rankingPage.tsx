@@ -1,11 +1,15 @@
 import { ViewBox } from '@/components/View';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import * as Font from 'expo-font';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import Podium from '../../assets/images/podium.svg';
 
 export default function Ranking() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
+    const bottomSheetRef = useRef<BottomSheet>(null);
+    const [snapPoints] = useState(['40%', '80%']);
+    const handleSheetChanges = useCallback((index: number) => console.log(index), []);
 
     useEffect(() => {
         Font.loadAsync({
@@ -15,31 +19,28 @@ export default function Ranking() {
 
     if (!fontsLoaded) return null;
 
-      const Card = ({ title, count }: {title: string, count: number }) => {
+    const Card = ({ title, count }: {title: string, count: number }) => {
         return (
-          <ViewBox style={styles.cardWrapper}>
+            <ViewBox style={styles.cardWrapper}>
             {count>1 &&<ViewBox style={styles.behindBox}/> }
-    
-            <ViewBox style={styles.card}>
-              <ViewBox style={{backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', margin:10, gap: 10}}>
-                <Image source={require('../../assets/images/magnolia.png')} style={styles.image} resizeMode='contain'/>
-                <Text style={styles.title}>{title}</Text>
-              </ViewBox>
-    
-              <ViewBox style={{ backgroundColor: 'transparent', position: 'absolute', top: 10, right: 10}}>
-                <Image source={require('../../assets/images/share.png')} style={styles.share} resizeMode='contain'/>
-              </ViewBox>
-    
-              <ViewBox style={styles.positionContiner}>
-                <Text style={{color: '#ffffff', fontSize: 12}}>발견된 위치 보기</Text>
-                <Image source={require('../../assets/images/position.png')} style={styles.position} resizeMode='contain'/>
-              </ViewBox>
+                <ViewBox style={styles.card}>
+                    <ViewBox style={{backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', margin:10, gap: 10}}>
+                        <Image source={require('../../assets/images/magnolia.png')} style={styles.image} resizeMode='contain'/>
+                        <Text style={styles.title}>{title}</Text>
+                    </ViewBox>
+            
+                    <ViewBox style={{ backgroundColor: 'transparent', position: 'absolute', top: 10, right: 10}}>
+                        <Image source={require('../../assets/images/share.png')} style={styles.share} resizeMode='contain'/>
+                    </ViewBox>
+            
+                    <ViewBox style={styles.positionContiner}>
+                        <Text style={{color: '#ffffff', fontSize: 12}}>발견된 위치 보기</Text>
+                        <Image source={require('../../assets/images/position.png')} style={styles.position} resizeMode='contain'/>
+                    </ViewBox>
+                </ViewBox>
             </ViewBox>
-          </ViewBox>
-        
         )
-        
-      }
+    }
 
     return (
         <View style={styles.container}>
@@ -71,6 +72,24 @@ export default function Ranking() {
                 </View>
 
                 <Podium width={350} height={500} />
+
+                <BottomSheet 
+                    ref={bottomSheetRef} 
+                    index={0} 
+                    snapPoints={snapPoints} 
+                    onChange={handleSheetChanges}
+                    enableContentPanningGesture={true}
+                    enableDynamicSizing={false}
+                    containerStyle={{ width: '100%' }}
+                    backgroundStyle={styles.BSContainer}
+                >
+                    <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
+                        <Card title="목련" count={2} />
+                        <Card title="능소화" count={1} />
+                        <Card title="장미" count={3} />
+                        <Card title="해바라기" count={1} />
+                    </BottomSheetScrollView>
+                </BottomSheet>
             </View>
         </View>
     )
@@ -81,7 +100,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F7FFE8',
         justifyContent: 'center',
-        alignItems: 'center',
+        width: '100%',
     },
     title: {
         fontSize: 28,
@@ -144,19 +163,29 @@ const styles = StyleSheet.create({
         marginBottom: -110, 
     },
 
+    BSContainer: {
+        backgroundColor: '#ffffff',
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        elevation: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+    },
     cardWrapper: {
-      width: 300,
-      height: 100,
-      marginTop: 10,
+        width: 300,
+        height: 100,
+        marginTop: 10,
     },
     behindBox: {
-      position: 'absolute',
-      top: -7,
-      left: -7,
-      width: '100%',
-      height: '100%',
-      borderRadius: 20,
-      backgroundColor: '#338D29'
+        position: 'absolute',
+        top: -7,
+        left: -7,
+        width: '100%',
+        height: '100%',
+        borderRadius: 20,
+        backgroundColor: '#338D29'
     },
     card: {
         backgroundColor: '#77BC6F',
@@ -169,7 +198,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         position: 'relative'
     },
-
     image: {
         width: 58,
         height: 76,
@@ -189,5 +217,10 @@ const styles = StyleSheet.create({
     position: {
         width: 20,
         height: 20,
+    },
+    scrollContainer: {
+        paddingBottom: 20,
+        alignItems: 'center',
+        gap: 15,
     },
 });
