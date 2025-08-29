@@ -4,10 +4,12 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect } from 'react';
 import { Image, Linking, Pressable, StyleSheet, Text } from 'react-native';
 
+// expo install expo-secure-store
+
 export default function Login() {
     const router = useRouter();
 
-    // 1️⃣ 앱이 열릴 때 redirect URL 체크
+    // 앱 열릴 때 redirect URL 체크
     useEffect(() => {
     const subscription = Linking.addListener('url', (event) => {
         const url = event.url;
