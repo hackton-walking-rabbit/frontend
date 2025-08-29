@@ -3,8 +3,8 @@ import { ViewBox } from "@/components/View";
 import { useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { Animated, Image, StyleSheet, Text } from "react-native";
-
 import * as Animatable from 'react-native-animatable';
+
 
 export default function Loading() {
     const router = useRouter();
@@ -16,7 +16,7 @@ export default function Loading() {
             duration: 3000,
             useNativeDriver: false,
         }).start(() => {
-            router.replace('/login');
+            // router.replace('/login');
         });
     },[]);
 
@@ -34,21 +34,21 @@ export default function Loading() {
         <ViewBox style={styles.root}>
 
             {/* 배경 */}
-                <Image source={require('../assets/images/gradation_1.png')} style={styles.grad1}/>
-                <Image source={require('../assets/images/gradation_2.png')} style={styles.grad2}/>
-                <Image source={require('../assets/images/gradation_3.png')} style={styles.grad3}/>
-                <Text style={styles.title_en1}>Walking</Text>
-                <Text style={styles.title_en2}>Rabbit</Text>
-                <Image source={require('../assets/images/foot_right.png')} style={styles.foot_right} resizeMode="contain"/>
-                <Image source={require('../assets/images/foot_left.png')} style={styles.foot_left} resizeMode="contain"/>
-                <Image source={require('../assets/images/rabbit_shadow.png')} style={styles.rabbit_shadow} resizeMode="contain"/>
+            <Image source={require('../assets/images/gradation_1.png')} style={styles.grad1}/>
+            <Image source={require('../assets/images/gradation_2.png')} style={styles.grad2}/>
+            <Image source={require('../assets/images/gradation_3.png')} style={styles.grad3}/>
+            <Text style={styles.title_en1}>Walking</Text>
+            <Text style={styles.title_en2}>Rabbit</Text>
+            <Image source={require('../assets/images/foot_right.png')} style={styles.foot_right} resizeMode="contain"/>
+            <Image source={require('../assets/images/foot_left.png')} style={styles.foot_left} resizeMode="contain"/>
+            <Image source={require('../assets/images/rabbit_shadow.png')} style={styles.rabbit_shadow} resizeMode="contain"/>
 
             <ViewBox style={styles.container}>
                 <ViewBox>
                     <Text style={styles.title}>워킹토끼</Text>
                     <Text style={styles.subTitle}>꽃의 도시 동대문구를 걷다</Text>
                 </ViewBox>
-
+                {/* <Rabbit_admin/> */}
                 <Animatable.Image 
                     animation={{
                         0:   { translateY: 0 },
@@ -58,11 +58,13 @@ export default function Loading() {
                     iterationCount={"infinite"}
                     duration={1200}
                     easing={"ease-in-out"}
-                    source={require('../assets/images/rabbit-admin.png')} 
+                    source={require('../assets/images/rabbit-admin1.png')} 
                     style={styles.rabbit}
+                    resizeMode="contain"
                 />
                 <ViewBox style={styles.loadingBar}>
                     <Animated.View style={[styles.progress, {width: barWidth}]}>
+                        {/* <Magnolia/> */}
                         <Animated.Image source={require('../assets/images/magnolia.png')} style={[styles.magnolia, {transform: [{translateX: flowerX}]}]}/>
                     </Animated.View>
                 </ViewBox>
@@ -103,6 +105,9 @@ const styles = StyleSheet.create({
         zIndex: 2,
     },
     rabbit: {
+        width: 180,
+        height: 250,
+        top: -15,
         left: 10,
         zIndex: 2,
     },
@@ -165,7 +170,7 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontFamily: 'Mynerve',
         position: 'absolute',
-        top: 460,
+        top: 470,
         right: 20,
         zIndex: 1,
         lineHeight: 44,
