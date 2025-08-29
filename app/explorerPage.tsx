@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MapIcon from '../assets/images/map.svg';
 import ShareIcon from '../assets/images/share.svg';
 
@@ -16,12 +16,12 @@ export default function ExplorerPage() {
         DungGeunMo: require('../assets/fonts/DungGeunMo.ttf'),
     });
 
-    const router = useRouter();
-
     // 폰트 로드 전 빈 화면
     if (!fontsLoaded) {
         return null; 
     }
+
+    const router = useRouter();
 
     return (
         <>
@@ -59,6 +59,19 @@ export default function ExplorerPage() {
                         end={{ x: 0, y: 0 }}
                         style={[styles.shadowEdge, { top: 0, bottom: 0, right: 0, width: 15 }]}
                     />
+
+                    <View style={styles.centerWrapper}>
+                        <Text style={styles.overlayText}>
+                        동대문구에서 <Text style={{ color: '#FFC0CB' }}>(꽃 종류)</Text>을{'\n'}
+                        <Text style={{ color: '#FFE066' }}>(n번째)</Text>로 발견한 탐험가!
+                        </Text>
+
+                        <Image
+                        source={require('../assets/images/rabbit-user.png')}
+                        style={styles.rabbitImage}
+                        resizeMode="contain"
+                        />
+                    </View>
                 </View>
 
                 <View style={styles.buttonRow}>
@@ -123,9 +136,26 @@ const styles = StyleSheet.create({
     shadowEdge: {
         position: 'absolute',
     },
-    chatText: {
+    centerWrapper: {
+        flex: 1,
+        justifyContent: 'center', 
+        alignItems: 'center',     
+    },
+    overlayText: {
+        fontSize: 20,
         color: 'white',
-        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 10,
+        fontFamily: 'DungGeunMo',
+    },
+    imageWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    rabbitImage: {
+        width: 300,
+        height: 300,
     },
 
 
