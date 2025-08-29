@@ -1,8 +1,15 @@
 import { ViewBox } from '@/components/View';
-import { Image, StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import Carrot from '../../assets/images/carrot.svg';
 import FlowerPink1 from '../../assets/images/flower-pink.svg';
 import PenIcon from '../../assets/images/pen.svg';
+
+const stats ={
+    collectDays: 4,
+    floweTypes: 8,
+    excyclopedia: 25,
+    missions: 1,
+}
 
 export default function MyPage() {
     return (
@@ -18,7 +25,7 @@ export default function MyPage() {
                 <ViewBox style={styles.nameBox}>
                     <ViewBox style={{backgroundColor: 'transparent',}}>
                         <Text style={styles.name}>흰둥이</Text>
-                        <ViewBox style={styles.dashed}/>
+                        <View style={styles.dashed}/>
                     </ViewBox>
                     <PenIcon style={{marginTop: 5}}/>
                 </ViewBox>
@@ -26,24 +33,28 @@ export default function MyPage() {
 
             <ViewBox style={styles.infoBox}>
                 <ViewBox style={styles.box}>
-                    <FlowerPink1 width={25} height={25} style={{marginLeft: 30,}}/>
+                    <FlowerPink1 width={25} height={25} style={{marginLeft:30, marginRight: 10}}/>
                     <Text style={{fontSize: 16, color: '#fff'}}>꽃 수집한 날짜 수: </Text>
+                    <Text style={{fontSize: 17, color: '#FFC0CB', fontWeight: 'bold'}}>{stats.collectDays}일</Text>
                 </ViewBox>
                 <ViewBox style={styles.box}>
-                    <FlowerPink1 width={25} height={25} style={{marginLeft: 30,}}/>
+                    <FlowerPink1 width={25} height={25} style={{marginLeft: 30, marginRight: 10}}/>
                     <Text style={{fontSize: 16, color: '#fff'}}>수집한 꽃 종류: </Text>
+                    <Text style={{fontSize: 17, color: '#FFC0CB', fontWeight: 'bold'}}>{stats.floweTypes}가지</Text>
                 </ViewBox>
                 <ViewBox style={styles.box}>
-                    <FlowerPink1 width={25} height={25} style={{marginLeft: 30,}}/>
+                    <FlowerPink1 width={25} height={25} style={{marginLeft: 30, marginRight: 10}}/>
                     <Text style={{fontSize: 16, color: '#fff'}}>도감 목록 수: </Text>
+                    <Text style={{fontSize: 17, color: '#FFC0CB', fontWeight: 'bold'}}>{stats.excyclopedia}개</Text>
                 </ViewBox>
                 <ViewBox style={styles.box}>
-                    <Carrot width={25} height={25} style={{marginLeft: 30,}}/>
+                    <Carrot width={25} height={25} style={{marginLeft: 30, marginRight: 10}}/>
                     <Text style={{fontSize: 16, color: '#fff'}}>성공한 미션 수: </Text>
+                    <Text style={{fontSize: 17, color: '#FFA14A', fontWeight: 'bold'}}>{stats.missions}개</Text>
                 </ViewBox>
             </ViewBox>
 
-            <ViewBox style={styles.saparator} />
+            <View style={styles.saparator} />
 
             <ViewBox style={styles.accountAction}>
                 <ViewBox style={styles.withdrawal}>
@@ -97,8 +108,9 @@ const styles = StyleSheet.create({
         opacity: 0.7,
     },
     dashed: {
-        borderWidth: 0.5,
+        borderBottomWidth: 1,
         borderColor: '#000',
+        opacity: 0.5,
         borderStyle: 'dashed',
         width: '100%',
         marginVertical: 2,
@@ -118,14 +130,14 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         flexDirection: 'row',
-        gap: 10,
+        // gap: 10,
     },
 
     saparator: {
-        borderWidth: 0.5,
-        borderColor: '#000',
+        height: 1,   
+        backgroundColor: '#000',
         opacity: 0.3,
-        marginVertical: 15,
+        marginTop: 15,
         width: '80%',
     },
 
