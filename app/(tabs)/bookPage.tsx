@@ -1,7 +1,7 @@
 import { ViewBox } from '@/components/View';
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React, { useCallback, useRef, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Calendar, DateData, LocaleConfig } from 'react-native-calendars';
 import BorderIcon from '../../assets/images/flower-border.svg';
 
@@ -21,7 +21,22 @@ const photoCounts: Record<string, number> = {
 
 const missionStatus: Record<string, number> = {
   '2025-08-30': 200,
-}
+};
+
+const photosByDate: Record<string, { title: string, count: number }[]> = {
+  '2025-08-29': [
+    { title: '목련', count: 3 }
+  ],
+  '2025-08-30': [
+    { title: '목련', count: 2 },
+    { title: '능소화', count: 1 }
+  ],
+  '2025-08-31': [
+    { title: '목련', count: 5 },
+    { title: '능소화', count: 3 },
+    { title: '장미', count: 3 }
+  ],
+};
 
 const getColor = (dateString: string): [string, string] => {
   let bgColor = '#F1F1F1';
@@ -107,6 +122,7 @@ const DotDay = (({ date, state, onPress, marking, selected }: DayProps & {select
 export default function Encyclopedia() {
   const [ snapPoints ] = useState(['40%', '80%']);
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const [expandedFlower, setExpandedFlower] = useState<string | null>(null);
 
   const handleSheetChanges = useCallback((index: number) => {
     console.log("handleSheetChanges", index);
@@ -121,6 +137,10 @@ export default function Encyclopedia() {
     const [year, month, day] = dateString.split('-');
     return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
   };
+
+  const handleCardPress = (title: string) => {
+    setExpandedFlower(title);
+  }
   
   const Card = ({ title, count }: {title: string, count: number }) => {
     return (
@@ -130,7 +150,10 @@ export default function Encyclopedia() {
         <ViewBox style={styles.card}>
           <ViewBox style={{backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', margin:10, gap: 10}}>
             <Image source={require('../../assets/images/magnolia.png')} style={styles.image} resizeMode='contain'/>
-            <Text style={styles.title}>{title}</Text>
+            <View style={{alignItems: 'center'}}>
+              <Text style={styles.title}>{title}</Text>
+              <View style={{height: 0.5, backgroundColor: '#fff', width: '100%'}}/>
+            </View>
           </ViewBox>
 
           <ViewBox style={{ backgroundColor: 'transparent', position: 'absolute', top: 10, right: 10}}>
@@ -166,6 +189,7 @@ export default function Encyclopedia() {
         onDayPress={day => {
           console.log('selected day: ', day);
           setSelected(day.dateString);
+          setExpandedFlower(null);
         }}
         enableSwipeMonths={true}
 
@@ -215,8 +239,21 @@ export default function Encyclopedia() {
         </ViewBox>
 
         <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
-          <Card title='목련' count={2}></Card>
-          <Card title='능소화' count={1}></Card>
+          {selected && !expandedFlower &&
+            photosByDate[selected]?.map((photo, index) => (
+              <TouchableOpacity key={index} onPress={() => handleCardPress(photo.title)}>
+                <Card title={photo.title} count={photo.count} />
+              </TouchableOpacity>
+            ))
+          }
+
+          {selected && expandedFlower &&
+          (photosByDate[selected] ?? [])
+            .filter(photo => photo.title === expandedFlower)
+            .map((photo, index) => (
+              <Card key={index} title={photo.title} count={1} />
+            ))
+          }
         </BottomSheetScrollView>
       </BottomSheet>
     </ViewBox>
@@ -277,12 +314,6 @@ const styles = StyleSheet.create({
       position: 'absolute',
       top: -5
     },
-//width: isSelected ? 25 : 22,
-          // height: isSelected ? 25 : 22,
-          // borderRadius: 13,
-          // backgroundColor: bgColor,
-          // alignItems: 'center',
-          // justifyContent: 'center',
 
   
     BSContainer: {
@@ -349,8 +380,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     share: {
-        width: 20,
-        height: 20,
+        width: 30,
+        height: 30,
     },
     positionContiner: {
         backgroundColor: 'transparent', 
@@ -358,11 +389,12 @@ const styles = StyleSheet.create({
         bottom: 10, 
         right: 10, 
         flexDirection: 'row',
-        alignItems:'center'
+        alignItems:'center',
+        gap: 3,
     },
     position: {
-        width: 20,
-        height: 20,
+        width: 30,
+        height: 30,
     },
     
 
