@@ -11,6 +11,10 @@ export const apiFetch = async (url: string, options: any = {}) => {
 
   return fetch(`${BASE_URL}${url}`, {
     ...options,
-    headers,
+    headers: {
+      'Authorization': token ? `Bearer ${token}` : '',
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
   });
 };
