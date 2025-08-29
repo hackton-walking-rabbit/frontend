@@ -1,15 +1,49 @@
 import { ViewBox } from '@/components/View';
 import { useRouter } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect } from 'react';
 import { Image, Linking, Pressable, StyleSheet, Text } from 'react-native';
 
 export default function Login() {
     const router = useRouter();
 
+    // 1️⃣ 앱이 열릴 때 redirect URL 체크
+    useEffect(() => {
+    const subscription = Linking.addListener('url', (event) => {
+        const url = event.url;
+        const token = url.split('accessToken=')[1];
+        if (token) {
+        saveAccessToken(token);
+        router.replace('/surveyPage');
+        }
+    });
+
+    // 앱 처음 실행 시 URL 체크
+    Linking.getInitialURL().then(url => {
+        if (url) {
+        const token = url.split('accessToken=')[1];
+        if (token) {
+            saveAccessToken(token);
+            router.replace('/surveyPage');
+        }
+        }
+    });
+
+    return () => {
+        subscription.remove(); 
+    };
+    }, []);
+
     const kakaoLogin = async () => {
         try {
-            const response = await fetch("http://backend.com/api/auth/request", {method: "GET"});
+            const response = await fetch("https://90b65896ca26.ngrok-free.app/api/auth/request", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
             const data = await response.json();
-
+            
             if (response.ok) {
                 const kakaoURL = data.data;
                 Linking.openURL(kakaoURL);
@@ -22,6 +56,10 @@ export default function Login() {
         }
     };
 
+    const saveAccessToken = async (token: string) => {
+        await SecureStore.setItemAsync('accessToken', token);
+    }
+
     return (
         <ViewBox style={styles.container}>
             <ViewBox style={styles.titleContainer}>
@@ -33,10 +71,8 @@ export default function Login() {
 
 
                 {/*일단 누르면 메인페이지로 이동하도록 해둠*/}
-                {/* <Pressable style={styles.loginBox} onPress={kakaoLogin}> */}
-                <Pressable
-                    style={styles.loginBox}
-                    onPress={() => router.replace('/surveyPage')}>
+                <Pressable style={styles.loginBox} onPress={kakaoLogin}>
+                {/* <Pressable style={styles.loginBox} onPress={() => router.replace('/surveyPage')}> */}
                         <Image source={require('../assets/images/kakaoIcon.webp')} style={styles.kakaoIcon} resizeMode='contain'/>
                         <Text style={styles.loginText}>카카오 계정으로 계속하기</Text> 
                 </Pressable>
