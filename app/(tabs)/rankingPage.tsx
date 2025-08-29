@@ -19,23 +19,36 @@ export default function Ranking() {
 
     if (!fontsLoaded) return null;
 
-    const Card = ({ title, count }: {title: string, count: number }) => {
+    const Card = ({ name, rank, count }: {name: string; rank: number; count: number }) => {
         return (
             <ViewBox style={styles.cardWrapper}>
-            {count>1 &&<ViewBox style={styles.behindBox}/> }
                 <ViewBox style={styles.card}>
-                    <ViewBox style={{backgroundColor: 'transparent', flexDirection: 'row', alignItems: 'center', margin:10, gap: 10}}>
-                        <Image source={require('../../assets/images/magnolia.png')} style={styles.image} resizeMode='contain'/>
-                        <Text style={styles.title}>{title}</Text>
+                    {/* 순위 */}
+                    <ViewBox style={styles.rankCircle}>
+                        <Text style={styles.rankText}>{rank}</Text>
                     </ViewBox>
-            
+
+                    {/* 프로필 사진 */}
+                    <View style={[styles.rankImage, { overflow: 'hidden' }]}>
+                        <Image 
+                            source={require('../../assets/images/rabbit-user-profile.png')} 
+                            style={{ width: 90, height: 90, marginTop: 30, marginLeft: 10 }}
+                            resizeMode="cover" 
+                        />
+                    </View>
+
+                    {/* 이름 및 개수 */}
+                    <View style={styles.rankInfoWrapper}>
+                        <Text style={styles.cardName}>{name}</Text>
+                        <Text style={styles.cardCount}>{count}개</Text>
+                    </View>
+
+
                     <ViewBox style={{ backgroundColor: 'transparent', position: 'absolute', top: 10, right: 10}}>
-                        <Image source={require('../../assets/images/share.png')} style={styles.share} resizeMode='contain'/>
-                    </ViewBox>
-            
-                    <ViewBox style={styles.positionContiner}>
-                        <Text style={{color: '#ffffff', fontSize: 12}}>발견된 위치 보기</Text>
-                        <Image source={require('../../assets/images/position.png')} style={styles.position} resizeMode='contain'/>
+                        <Image
+                            source={require('../../assets/images/share.png')}
+                            style={styles.share}
+                            resizeMode='contain'/>
                     </ViewBox>
                 </ViewBox>
             </ViewBox>
@@ -48,26 +61,44 @@ export default function Ranking() {
                 <Text style={styles.title}>동대문구 꽃 탐험가 랭킹</Text>
 
                 {/* 시상대 */}
-                <View style={styles.circlesRow}>
+                <View style={styles.podiumCirclesRow}>
                     {/* 2등 */}
                     <View style={[styles.rankWrapper, { marginBottom: -50 }]}>
-                        <View style={styles.circle} />
-                        <Text style={styles.nameText}>김철수</Text>
-                        <Text style={styles.scoreText}>14개</Text>
+                        <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
+                            <Image 
+                                source={require('../../assets/images/rabbit-user-profile.png')} 
+                                style={{ width: 120, height: 120, borderRadius: 50, marginTop: 40, marginLeft: 10 }}
+                                resizeMode="cover" 
+                            />
+                        </View>
+                        <Text style={styles.podiumName}>김철수</Text>
+                        <Text style={styles.podiumCount}>14개</Text>
                     </View>
 
                     {/* 1등 */}
                     <View style={[styles.rankWrapper, { marginBottom: 0 }]}>
-                        <View style={styles.circle} />
-                        <Text style={styles.nameText}>신짱구</Text>
-                        <Text style={styles.scoreText}>15개</Text>
+                        <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
+                                <Image 
+                                    source={require('../../assets/images/rabbit-user-profile.png')} 
+                                    style={{ width: 120, height: 120, borderRadius: 50, marginTop: 40, marginLeft: 10 }}
+                                    resizeMode="cover" 
+                                />
+                            </View>
+                        <Text style={styles.podiumName}>신짱구</Text>
+                        <Text style={styles.podiumCount}>15개</Text>
                     </View>
 
                     {/* 3등 */}
                     <View style={[styles.rankWrapper, { marginBottom: -110 }]}>
-                        <View style={styles.circle} />
-                        <Text style={styles.nameText}>맹구</Text>
-                        <Text style={styles.scoreText}>13개</Text>
+                        <View style={[styles.podiumImage, { overflow: 'hidden' }]}>
+                                <Image 
+                                    source={require('../../assets/images/rabbit-user-profile.png')} 
+                                    style={{ width: 120, height: 120, borderRadius: 50, marginTop: 40, marginLeft: 10 }}
+                                    resizeMode="cover" 
+                                />
+                        </View>
+                        <Text style={styles.podiumName}>맹구</Text>
+                        <Text style={styles.podiumCount}>13개</Text>
                     </View>
                 </View>
 
@@ -84,10 +115,10 @@ export default function Ranking() {
                     backgroundStyle={styles.BSContainer}
                 >
                     <BottomSheetScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={true}>
-                        <Card title="목련" count={2} />
-                        <Card title="능소화" count={1} />
-                        <Card title="장미" count={3} />
-                        <Card title="해바라기" count={1} />
+                        <Card name="정지윤" rank={4} count={12} />
+                        <Card name="김은지" rank={5} count={10} />
+                        <Card name="양나슬" rank={6} count={9} />
+                        <Card name="이채우" rank={7} count={8} />
                     </BottomSheetScrollView>
                 </BottomSheet>
             </View>
@@ -120,7 +151,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'column',
     },
-    circlesRow: {
+    podiumCirclesRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
@@ -131,18 +162,19 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
     },
-    nameText: {
-        fontSize: 16,
-        color: '#333',
+    podiumName : {
+        fontSize: 18,
+        color: '#338D29',
         fontFamily: 'BMJUA',
         marginTop: 5,
     },  
-    scoreText: {
+    podiumCount: {
         fontSize: 14,
-        color: '#666',
+        color: '#000000',
         fontFamily: 'BMJUA',
+        marginTop: 3,
     },  
-    circle: {
+    podiumImage: {
         width: 80,
         height: 80,
         borderRadius: 50,
@@ -152,7 +184,6 @@ const styles = StyleSheet.create({
         borderWidth: 3,        
         borderColor: '#338D29',  
     },
-
     first: {
         marginBottom: -10,
     },
@@ -162,6 +193,10 @@ const styles = StyleSheet.create({
     third: {
         marginBottom: -110, 
     },
+
+
+
+
 
     BSContainer: {
         backgroundColor: '#ffffff',
@@ -176,16 +211,7 @@ const styles = StyleSheet.create({
     cardWrapper: {
         width: 300,
         height: 100,
-        marginTop: 10,
-    },
-    behindBox: {
-        position: 'absolute',
-        top: -7,
-        left: -7,
-        width: '100%',
-        height: '100%',
-        borderRadius: 20,
-        backgroundColor: '#338D29'
+        marginTop: 0,
     },
     card: {
         backgroundColor: '#77BC6F',
@@ -195,12 +221,50 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 10,
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         position: 'relative'
     },
-    image: {
+    cardName: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#fff',
+        fontFamily: 'BMJUA',
+    },
+    rankCircle: {
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 5,
+    },
+    rankText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#338D29',
+    },
+    rankImage: {
         width: 58,
-        height: 76,
+        height: 58,
+        borderRadius: 29, 
+        backgroundColor: '#ffffff', 
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 10,
+        borderWidth: 2,        
+        borderColor: '#338D29', 
+    },
+    rankInfoWrapper: {
+        flexDirection: 'column',
+        marginLeft: 15,
+        justifyContent: 'flex-start',
+    },
+    cardCount: {
+        fontSize: 14,
+        color: '#fff',
+        fontFamily: 'BMJUA',
+        marginTop: 5,
     },
     share: {
         width: 20,
