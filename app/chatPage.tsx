@@ -11,6 +11,8 @@ import SaveIcon from '../assets/images/save.svg';
 // npx expo install expo-font
 // expo install react-native-svg
 
+
+
 export default function ChatPage() {
     const [fontsLoaded] = useFonts({
         Mynerve: require('../assets/fonts/Mynerve-Regular.ttf'),
