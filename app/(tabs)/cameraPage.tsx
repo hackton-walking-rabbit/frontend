@@ -1,10 +1,11 @@
-import { apiFetch } from '@/api/apiClient';
 import { Camera, CameraView } from 'expo-camera';
+import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 import MagnifierIcon from '../../assets/images/magnifier.svg';
+
 // expo install expo-camera
 // expo install react-native-svg
 // yarn add react-native-svg-transformer
@@ -16,6 +17,7 @@ export default function CameraPage() {
     const [isReady, setIsReady] = useState(false);
     const router = useRouter();
     const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);
+    const BASE_URL = Constants.expoConfig?.extra?.apiBaseUrl;
 
     const requestPermission = async () => {
         const { status, granted } = await Camera.requestCameraPermissionsAsync();
@@ -51,36 +53,45 @@ export default function CameraPage() {
             Alert.alert('카메라가 준비되지 않았습니다.');
             return;
         }
-        
+      
         try {
             setIsReady(false);
-            const photo = await cameraRef.current.takePictureAsync({ base64: false });
-        
-            const formData = new FormData();
-            formData.append('file', {
+            const photo = await cameraRef.current.takePictureAsync({
+                quality: 0.5,
+            });
+            
+            const filePart = {
                 uri: photo.uri,
                 name: 'photo.jpg',
                 type: 'image/jpeg',
-            } as any);
-            formData.append('meta', JSON.stringify({
-                missionId: missionId ? Number(missionId) : null,
+            } as any;
+    
+            // meta
+            const meta = {
+                missionId: Number(missionId ?? 0),
                 latitude: coords?.latitude ?? 0,
                 longitude: coords?.longitude ?? 0,
-            }));
-        
-            const response = await apiFetch('/api/messages/photo', {
+            };
+            const formData = new FormData();
+            formData.append('file', filePart);
+            formData.append("meta", JSON.stringify(meta));
+    
+            // apiFetch 사용하지 않고 직접 fetch 호출
+            const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0Mzg0NjUzMTI3IiwiaWF0IjoxNzU2NTA1NDQ3LCJleHAiOjE3NTY1OTE4NDd9.GpETYIs83LHeQigTKR4ies-1NZSQ77MATy4L1mZuxGg'; 
+            const response = await fetch(`${BASE_URL}/api/messages/photo`, {
                 method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`, 
+                },
                 body: formData,
             });
-        
+
             const data = await response.json();
-        
             Alert.alert('서버 응답', JSON.stringify(data));
-        
+
             if (response.ok) {
                 router.push('../chatPage');
             }
-
         } catch (err: any) {
             console.error(err);
             Alert.alert('오류', err.message || '사진 업로드 중 오류가 발생했습니다.');
